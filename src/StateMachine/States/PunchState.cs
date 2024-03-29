@@ -8,13 +8,20 @@ public partial class PunchState : AttackState
     Sprite2D rightArm;
     [Export]
     Sprite2D leftArm;
-
+    [Export]
+    Area2D area2D;
     bool isRight;
     double chargeTime;
     bool isCharging;
 
+    int damage = 0;
+    int combo = 0;
+
     public override void Enter(){
+        combo = 0;
+        area2D.Monitoring = false;
         animation="punchCharge";
+        damage = 1;
         base.Enter();
         isRight=true;
         chargeTime = 0;
@@ -38,41 +45,43 @@ public partial class PunchState : AttackState
 
     public override void Exit(){
         base.Exit();
+        area2D.Monitoring = false;
         leftArm.Rotation = 0;
         rightArm.Rotation = 0;
     }
 
     public void ProcessInput(double delta){
         //jak prawa reka i trzyma LPM
-        if(Input.IsActionJustPressed("fire") && !isCharging && !isAttacking ){
+        if(moveCompontent.GetActions().Contains(Actions.ATTACK_PRESSED) && !isCharging && !isAttacking ){
             isCharging = true;
         }
-        else if(Input.IsActionPressed("fire") && isRight && isCharging){
+        else if(moveCompontent.GetActions().Contains(Actions.ATTACK) && isRight && isCharging){
             attackLenght = 0.5;
             //animation = "punchCharge";
             UpdateAnimation("punchCharge");//animationPlayer.Play(animation+side);
         }
-        else if(!Input.IsActionPressed("fire") && isRight && chargeTime>0.1 && !isAttacking ){
+        else if(!moveCompontent.GetActions().Contains(Actions.ATTACK) && isRight && chargeTime>0.1 && !isAttacking ){
             isCharging=false;
             chargeTime=0;
-            Attack(isRight);
+            Attack();
         }
-        else if(Input.IsActionJustPressed("fire") && !isRight && attackLenght<0.3){
-            Attack(isRight);
+        else if(moveCompontent.GetActions().Contains(Actions.ATTACK_PRESSED) && !isRight && attackLenght<0.3){
+            Attack();
         }
     }
 
-    public void Attack(bool isRight){
+    public void Attack(){
+        area2D.Monitoring = true;
         if (isRight){
             animation = "punch";
-            animationPlayer.Play(animation+side);
-            this.isRight=false;
+            //animationPlayer.Play(animation+side);
+            isRight=false;
         }else{
             animation = "punchContinue";
-            animationPlayer.Play(animation+side);
-            this.isRight=true;
+            //a/nimationPlayer.Play(animation+side);
+            isRight=true;
         }
-        attackLenght = 0.4;
+        attackLenght = parent.attackLenght;
         isAttacking = true;
     }
 
@@ -94,5 +103,21 @@ public partial class PunchState : AttackState
             
         }
         UpdateAnimation(animation);
+    }
+
+    void OnPunchHitBodyEnter(Node2D body){
+        Vector2 isFront = moveCompontent.direction;
+        if(body.HasMethod("TakeDamage")){
+            combo += 1;
+            if(combo>=3){
+                combo = 0;
+            }
+            Entity character = body as Entity;
+            GD.Print(isFront);
+            // if(moveCompontent.direction!=character.direction){
+            //     isFront = moveCompontent.direction;
+            // }
+            character.TakeDamage(isFront, combo);
+        }
     }
 }

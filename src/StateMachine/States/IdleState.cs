@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Linq;
 
 public partial class IdleState : State
 {
@@ -9,24 +10,21 @@ public partial class IdleState : State
     }
     public override void PhysicsUpdate(double delta)
     {
+        
+        base.PhysicsUpdate(delta);
         if(parent.Velocity!=Vector2.Zero){
             parent.Velocity = parent.Velocity.Lerp(Vector2.Zero,(float)delta*5);
         }
-
-        if(moveCompontent.GetMovementDirection()!=0){
-            GD.Print("chu:");
+        
+        if(action==Actions.WALK){
             EmitSignal(SignalName.transitioned,this,"Walk");
         }
 
-        if(moveCompontent.GetAttackInput(true)){
+        if(action==Actions.ATTACK){
             EmitSignal(SignalName.transitioned,this,"Attack");
         }
 
-        if(!parent.IsOnFloor()){
-            EmitSignal(SignalName.transitioned,this,"Fall");
-        }
-
-        if(parent.IsOnFloor() && moveCompontent.GetJumpInput(true)){
+        if(parent.IsOnFloor() && action==Actions.JUMP){
             EmitSignal(SignalName.transitioned,this,"Jump");
         }
     }

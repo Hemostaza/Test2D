@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cwcc0geuie4n5"]
+[gd_scene load_steps=18 format=3 uid="uid://cwcc0geuie4n5"]
 
 [ext_resource type="Script" path="res://src/PC/pc.cs" id="1_ldsg2"]
 [ext_resource type="Texture2D" uid="uid://bv50oiih8c20u" path="res://Assets/Sheets/Szpak/leftArm.png" id="1_wd1aa"]
@@ -17,9 +17,47 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_urxhn"]
 size = Vector2(12, 32)
 
-[node name="CharacterBody2D" type="CharacterBody2D"]
+[sub_resource type="Animation" id="Animation_3ov6n"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite/armR/PunchHitBox:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite/armR/PunchHitBox/CollisionShape2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-14, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4suym"]
+_data = {
+"RESET": SubResource("Animation_3ov6n")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rsmpj"]
+radius = 5.0
+
+[node name="CharacterBody2D" type="CharacterBody2D" node_paths=PackedStringArray("stateMachine")]
+collision_layer = 2
+collision_mask = 5
 script = ExtResource("1_ldsg2")
 safeTimeInAir = 1.0
+stateMachine = NodePath("StateMachine")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -14)
@@ -29,6 +67,7 @@ debug_color = Color(0, 0.6, 0.701961, 0.419608)
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 playback_process_mode = 0
 libraries = {
+"": SubResource("AnimationLibrary_4suym"),
 "PC": ExtResource("2_ao7c7")
 }
 
@@ -39,35 +78,43 @@ position = Vector2(1, -19)
 texture = ExtResource("2_wa88d")
 hframes = 10
 vframes = 6
-frame = 9
+frame = 11
 
 [node name="LeftSide" type="Node2D" parent="Sprite/Main"]
 show_behind_parent = true
 
 [node name="armL" type="Sprite2D" parent="Sprite/Main/LeftSide"]
 show_behind_parent = true
-position = Vector2(-7, 7)
+position = Vector2(1, 3)
 texture = ExtResource("1_wd1aa")
 offset = Vector2(0, 4)
 hframes = 10
 vframes = 6
-frame = 9
+frame = 11
 
 [node name="legL" type="Sprite2D" parent="Sprite/Main/LeftSide"]
-position = Vector2(-7, 12)
+position = Vector2(1, 10)
 texture = ExtResource("3_hrlyi")
 offset = Vector2(0, 4)
 hframes = 10
 vframes = 6
-frame = 9
+frame = 11
 
 [node name="armR" type="Sprite2D" parent="Sprite"]
-position = Vector2(-3, 9)
+position = Vector2(2, 3)
 texture = ExtResource("3_633io")
 offset = Vector2(0, 3)
 hframes = 10
 vframes = 6
-frame = 9
+frame = 11
+
+[node name="PunchHitBox" type="Area2D" parent="Sprite/armR"]
+collision_layer = 2
+collision_mask = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite/armR/PunchHitBox"]
+position = Vector2(-14, 1)
+shape = SubResource("CircleShape2D_rsmpj")
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initialState", "animationPlayer", "moveComponent", "parent")]
 script = ExtResource("5_iwydl")
@@ -83,10 +130,11 @@ script = ExtResource("6_y21ok")
 [node name="Walk" type="Node" parent="StateMachine"]
 script = ExtResource("7_ejaxq")
 
-[node name="Attack" type="Node" parent="StateMachine" node_paths=PackedStringArray("rightArm", "leftArm")]
+[node name="Attack" type="Node" parent="StateMachine" node_paths=PackedStringArray("rightArm", "leftArm", "area2D")]
 script = ExtResource("9_48q4b")
 rightArm = NodePath("../../Sprite/armR")
 leftArm = NodePath("../../Sprite/Main/LeftSide/armL")
+area2D = NodePath("../../Sprite/armR/PunchHitBox")
 
 [node name="Fall" type="Node" parent="StateMachine"]
 script = ExtResource("10_xr31j")
@@ -98,3 +146,5 @@ chargeMultiplier = 200.0
 
 [node name="MoveComponent" type="Node" parent="."]
 script = ExtResource("6_h1uvt")
+
+[connection signal="body_entered" from="Sprite/armR/PunchHitBox" to="StateMachine/Attack" method="OnPunchHitBodyEnter"]

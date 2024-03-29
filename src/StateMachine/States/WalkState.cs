@@ -17,17 +17,18 @@ public partial class WalkState : State
     }
 
     public override void PhysicsUpdate(double delta){
-        
-        moveSpeed = moveCompontent.GetMovementDirection() * 100;
+        base.PhysicsUpdate(delta);
+        moveSpeed = moveCompontent.WantMove() * 100;
 
         parent.Velocity = new Vector2(moveSpeed,0);
-        if(moveCompontent.GetMovementDirection()==0){
+        
+        if(action==Actions.IDLE){
             EmitSignal(SignalName.transitioned,this,"Idle");
         }
-        if(moveCompontent.GetAttackInput(true)){
+        if(action==Actions.ATTACK){
             EmitSignal(SignalName.transitioned,this,"Attack");
         }
-        if(moveCompontent.GetJumpInput(true)){
+        if(action==Actions.JUMP){
             EmitSignal(SignalName.transitioned,this,"Jump");
         }
 

@@ -25,14 +25,13 @@ public partial class FallState : State
     public override void PhysicsUpdate(double delta){
         fallingTime+=delta;
         if(fallingTime>0){
-            GD.Print(fallingTime);
             if(!isContinue && fallingTime>parent.safeTimeInAir){
                 UpdateAnimation("fall2Continue");
                 AnimationQueue("fallContinue");
                 lyingTime=0.5;
                 isContinue = true;
             }
-            float moveSpeed = moveCompontent.GetMovementDirection() * 25;
+            float moveSpeed = moveCompontent.WantMove() * 25;
             if(fallingTime<1 || fallingTime>1.5){
                 UpdateAnimation(animation);
             }
@@ -52,7 +51,7 @@ public partial class FallState : State
 
     public void Land(double delta){
         if(parent.Velocity!=Vector2.Zero){
-            parent.Velocity = parent.Velocity.Lerp(Vector2.Zero,(float)delta*5);
+            parent.Velocity = parent.Velocity.Lerp(Vector2.Zero,(float)delta*15);
         }
         if(fallingTime>1){
             ChangeAnimation("hitFloor");

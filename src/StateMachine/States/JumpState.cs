@@ -20,8 +20,8 @@ public partial class JumpState : State
     }
 
     public override void PhysicsUpdate(double delta){
-
-        if(moveCompontent.GetJumpInput(true)){
+        base.PhysicsUpdate(delta);
+        if(action==Actions.JUMP){
             if(chargForce<1){
                 chargForce+=delta;
                 //animation = "jumpCharge";
@@ -33,12 +33,9 @@ public partial class JumpState : State
                 }
             //}
         }
-        else if(moveCompontent.IsJumpInputReleased()){
-            float movement = moveCompontent.GetMovementDirection();
+        else if(action==Actions.JUMP_RELEASE){
+            float movement = moveCompontent.WantMove();
             parent.Velocity += new Vector2(movement*40,(float)-jumpForce-(float)chargForce*(float)chargeMultiplier);
-            EmitSignal(SignalName.transitioned,this,"Fall");
-        }
-        if(!parent.IsOnFloor()){
             EmitSignal(SignalName.transitioned,this,"Fall");
         }
     }

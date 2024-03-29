@@ -69,8 +69,6 @@ public partial class PPunchState : AttackState
             parent.Velocity = parent.Velocity.Lerp(Vector2.Zero,(float)delta*10);
         }
 
-        GetMovementInput();
-
     }
     public override void Exit(){
         leftArm.Rotation = 0;

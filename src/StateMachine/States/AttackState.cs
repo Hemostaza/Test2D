@@ -8,8 +8,8 @@ public partial class AttackState : State
     public bool isAttacking;
 
     public override void Enter(){
+        this.attackLenght = parent.attackLenght;
         base.Enter();
-        attackLenght=0.4;
     }
 
     public override void Update(double delta){

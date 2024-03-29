@@ -15,20 +15,22 @@ public partial class State : Node
     public String animationGroup;
     String fullAnimationName;
     public MoveComponent moveCompontent;
+    public Actions action;
 
     virtual public void Enter(){
         UpdateAnimation(animation);
-         GD.Print("enter: "+this.Name);
+        //GD.Print(parent.Name+": enter: "+this.Name);
     }
 
     virtual public void Exit(){
-        GD.Print("Exit: "+this.Name);
+        //GD.Print("Exit: "+this.Name);
     }
 
     virtual public void Update(double delta){
     }
 
     virtual public void PhysicsUpdate(double delta){
+        action = moveCompontent.GetActions()[0];
     }
 
     public void UpdateSide(){
@@ -41,7 +43,7 @@ public partial class State : Node
     }
     
     public float GetMovementInput(){
-        return moveCompontent.GetMovementDirection();
+        return moveCompontent.WantMove();
     }
     
     public void UpdateAnimation(String animation){
@@ -56,7 +58,7 @@ public partial class State : Node
         UpdateSide();
         this.animation = animation;
         fullAnimationName = animationGroup+"/"+animation+side;
-        GD.Print(fullAnimationName);
+        //GD.Print(fullAnimationName);
         if(animationPlayer.GetAnimation(fullAnimationName)!=null){
             animationPlayer.Queue(fullAnimationName);
         }
