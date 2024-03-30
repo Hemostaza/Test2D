@@ -46,7 +46,6 @@ public partial class FallState : State
         if(fallingTime<0 && !parent.IsOnFloor()){
             Enter();
         }
-        
     }
 
     public void Land(double delta){

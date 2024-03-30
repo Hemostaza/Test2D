@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://cwcc0geuie4n5"]
+[gd_scene load_steps=22 format=3 uid="uid://cwcc0geuie4n5"]
 
 [ext_resource type="Script" path="res://src/PC/pc.cs" id="1_ldsg2"]
 [ext_resource type="Texture2D" uid="uid://bv50oiih8c20u" path="res://Assets/Sheets/Szpak/leftArm.png" id="1_wd1aa"]
@@ -13,9 +13,12 @@
 [ext_resource type="Script" path="res://src/StateMachine/States/PunchState.cs" id="9_48q4b"]
 [ext_resource type="Script" path="res://src/StateMachine/States/FallState.cs" id="10_xr31j"]
 [ext_resource type="Script" path="res://src/StateMachine/States/JumpState.cs" id="11_1vnvd"]
+[ext_resource type="Script" path="res://src/StateMachine/States/PickUpState.cs" id="13_6f6v6"]
+[ext_resource type="Script" path="res://src/StateMachine/States/GetHitState.cs" id="14_vvvbr"]
+[ext_resource type="Script" path="res://src/StateMachine/States/HitFallState.cs" id="15_1nct0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_urxhn"]
-size = Vector2(12, 32)
+size = Vector2(12, 22)
 
 [sub_resource type="Animation" id="Animation_3ov6n"]
 length = 0.001
@@ -52,7 +55,10 @@ _data = {
 [sub_resource type="CircleShape2D" id="CircleShape2D_rsmpj"]
 radius = 5.0
 
-[node name="CharacterBody2D" type="CharacterBody2D" node_paths=PackedStringArray("stateMachine")]
+[sub_resource type="CircleShape2D" id="CircleShape2D_tseh0"]
+radius = 12.0416
+
+[node name="CharacterBody2D" type="CharacterBody2D" node_paths=PackedStringArray("stateMachine") groups=["Player"]]
 collision_layer = 2
 collision_mask = 5
 script = ExtResource("1_ldsg2")
@@ -60,7 +66,7 @@ safeTimeInAir = 1.0
 stateMachine = NodePath("StateMachine")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -14)
+position = Vector2(0, -10)
 shape = SubResource("RectangleShape2D_urxhn")
 debug_color = Color(0, 0.6, 0.701961, 0.419608)
 
@@ -75,38 +81,39 @@ libraries = {
 position = Vector2(1, -19)
 
 [node name="Main" type="Sprite2D" parent="Sprite"]
+position = Vector2(-2, 0)
 texture = ExtResource("2_wa88d")
 hframes = 10
 vframes = 6
-frame = 11
+frame = 48
 
 [node name="LeftSide" type="Node2D" parent="Sprite/Main"]
-show_behind_parent = true
 
 [node name="armL" type="Sprite2D" parent="Sprite/Main/LeftSide"]
-show_behind_parent = true
-position = Vector2(1, 3)
+position = Vector2(10, 8)
 texture = ExtResource("1_wd1aa")
 offset = Vector2(0, 4)
 hframes = 10
 vframes = 6
-frame = 11
+frame = 48
 
 [node name="legL" type="Sprite2D" parent="Sprite/Main/LeftSide"]
-position = Vector2(1, 10)
+show_behind_parent = true
+position = Vector2(1, 12)
 texture = ExtResource("3_hrlyi")
 offset = Vector2(0, 4)
 hframes = 10
 vframes = 6
-frame = 11
+frame = 48
 
 [node name="armR" type="Sprite2D" parent="Sprite"]
-position = Vector2(2, 3)
+show_behind_parent = true
+position = Vector2(8, 11)
 texture = ExtResource("3_633io")
 offset = Vector2(0, 3)
 hframes = 10
 vframes = 6
-frame = 11
+frame = 48
 
 [node name="PunchHitBox" type="Area2D" parent="Sprite/armR"]
 collision_layer = 2
@@ -144,7 +151,26 @@ script = ExtResource("11_1vnvd")
 jumpForce = 350.0
 chargeMultiplier = 200.0
 
+[node name="PickUp" type="Node" parent="StateMachine"]
+script = ExtResource("13_6f6v6")
+
+[node name="GetHit" type="Node" parent="StateMachine"]
+script = ExtResource("14_vvvbr")
+
+[node name="HitFall" type="Node" parent="StateMachine"]
+script = ExtResource("15_1nct0")
+
 [node name="MoveComponent" type="Node" parent="."]
 script = ExtResource("6_h1uvt")
 
+[node name="InteractArea" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractArea"]
+position = Vector2(0, -11)
+shape = SubResource("CircleShape2D_tseh0")
+
 [connection signal="body_entered" from="Sprite/armR/PunchHitBox" to="StateMachine/Attack" method="OnPunchHitBodyEnter"]
+[connection signal="area_entered" from="InteractArea" to="." method="OnInteractAreaEntered"]
+[connection signal="area_exited" from="InteractArea" to="." method="OnInteractAreaExited"]

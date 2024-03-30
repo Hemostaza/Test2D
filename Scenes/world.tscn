@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://co1ar7rhwjllx"]
+[gd_scene load_steps=8 format=3 uid="uid://co1ar7rhwjllx"]
 
 [ext_resource type="PackedScene" uid="uid://cwcc0geuie4n5" path="res://Scenes/pc.tscn" id="1_mxk4o"]
 [ext_resource type="Texture2D" uid="uid://cafg3ge32mk66" path="res://Assets/groundTiles.png" id="2_1ysxb"]
 [ext_resource type="PackedScene" uid="uid://1eokv4j58342" path="res://Scenes/testEnemy.tscn" id="2_23upm"]
+[ext_resource type="PackedScene" uid="uid://d1nlj1u8iyqgw" path="res://Scenes/Food.tscn" id="4_dsqwg"]
+[ext_resource type="Script" path="res://src/Items/Food.cs" id="5_a1ikd"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2j880"]
 texture = ExtResource("2_1ysxb")
@@ -172,3 +174,10 @@ position = Vector2(2, 19)
 [node name="Enemy" parent="." instance=ExtResource("2_23upm")]
 position = Vector2(147, 96)
 safeTimeInAir = 1.0
+
+[node name="Apple" parent="." instance=ExtResource("4_dsqwg")]
+position = Vector2(-49, 247)
+script = ExtResource("5_a1ikd")
+
+[node name="FoodItem" parent="." instance=ExtResource("4_dsqwg")]
+position = Vector2(-43, 206)

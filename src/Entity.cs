@@ -9,28 +9,28 @@ public partial class Entity : CharacterBody2D
     public double attackLenght = 0.4;
     [Export]
     public StateMachine stateMachine;
-    public bool isAttacking = false;
-
-    public Vector2 direction = Vector2.Right;
-    public String side = "Right";
-
     public State currentState;
+
+    public override void _Ready()
+    {
+        base._Ready();
+    }
+
     public override void _PhysicsProcess(double delta)
     {
-        Falling();
         MoveAndSlide();
     }
 
-    void Falling(){
-        if(!IsOnFloor() && currentState.Name!="Jump" && currentState.Name!="Fall"){
+    public void Falling(){
+        if(!IsOnFloor() && currentState.Name!="Jump" && currentState.Name!="Fall"
+            && currentState.Name!="HitFall"){
             stateMachine.OnChildTransition(currentState,"Fall");
         }
     }
 
     public Vector2 hitDirection = Vector2.Zero;
-    public virtual void TakeDamage(Vector2 hitDirection, int combo){
+    public virtual void TakeDamage(Vector2 hitDirection, double power){
         this.hitDirection = hitDirection;
-        GD.Print(Name+": Ouch "+hitDirection);
     }
 
     public void SetCurrentState(State state){

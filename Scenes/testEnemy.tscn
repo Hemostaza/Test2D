@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://1eokv4j58342"]
+[gd_scene load_steps=18 format=3 uid="uid://1eokv4j58342"]
 
 [ext_resource type="AnimationLibrary" uid="uid://cjcftckmbps0j" path="res://Animations/pc/PC.res" id="1_6hm7n"]
 [ext_resource type="Script" path="res://src/testEnemy/testEnemy.cs" id="1_13uk7"]
@@ -14,6 +14,7 @@
 [ext_resource type="Script" path="res://src/StateMachine/States/JumpState.cs" id="11_8f6oq"]
 [ext_resource type="Script" path="res://src/StateMachine/States/GetHitState.cs" id="13_5g27f"]
 [ext_resource type="Script" path="res://src/testEnemy/EnemyAI.cs" id="13_cmjj5"]
+[ext_resource type="Script" path="res://src/StateMachine/States/HitFallState.cs" id="14_yab6a"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s14by"]
 size = Vector2(12, 32)
@@ -49,35 +50,35 @@ position = Vector2(-2, 0)
 texture = ExtResource("2_4pp64")
 hframes = 10
 vframes = 6
-frame = 48
+frame = 49
 
 [node name="LeftSide" type="Node2D" parent="Sprite/Main"]
 
 [node name="armL" type="Sprite2D" parent="Sprite/Main/LeftSide"]
-position = Vector2(10, 8)
+position = Vector2(9, 17)
 texture = ExtResource("3_0x1ic")
 offset = Vector2(0, 4)
 hframes = 10
 vframes = 6
-frame = 48
+frame = 49
 
 [node name="legL" type="Sprite2D" parent="Sprite/Main/LeftSide"]
 show_behind_parent = true
-position = Vector2(1, 12)
+position = Vector2(0, 18)
 texture = ExtResource("4_47djv")
 offset = Vector2(0, 4)
 hframes = 10
 vframes = 6
-frame = 48
+frame = 49
 
 [node name="armR" type="Sprite2D" parent="Sprite"]
 show_behind_parent = true
-position = Vector2(8, 11)
+position = Vector2(1, 20)
 texture = ExtResource("5_qhm7k")
 offset = Vector2(0, 3)
 hframes = 10
 vframes = 6
-frame = 48
+frame = 49
 
 [node name="PunchHitBox" type="Area2D" parent="Sprite/armR"]
 collision_layer = 4
@@ -117,6 +118,9 @@ chargeMultiplier = 200.0
 
 [node name="GetHit" type="Node" parent="StateMachine"]
 script = ExtResource("13_5g27f")
+
+[node name="HitFall" type="Node" parent="StateMachine"]
+script = ExtResource("14_yab6a")
 
 [node name="MoveComponent" type="Node" parent="."]
 script = ExtResource("13_cmjj5")

@@ -52,7 +52,6 @@ public partial class StateMachine : Node
 
     public void OnChildTransition(State state, String newStateName)
     {
-        parent.SetCurrentState(currentState);
         if(state!=currentState){
             return;
         }
@@ -61,6 +60,7 @@ public partial class StateMachine : Node
 
     public void ChangeState(String newStateName){
         State newState = states[newStateName];
+        
         if(newState==null){
             return;
         }
@@ -70,6 +70,7 @@ public partial class StateMachine : Node
         
         newState.Enter();
         currentState = newState;
+        parent.SetCurrentState(currentState);
     }
 
     public Dictionary<String, State> GetStates(){

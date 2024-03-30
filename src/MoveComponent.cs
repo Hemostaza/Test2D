@@ -29,4 +29,5 @@ public enum Actions {
         JUMP_RELEASE,
         FALL,
         GETHIT,
+        PICKUP,
     }
