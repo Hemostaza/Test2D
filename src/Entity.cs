@@ -11,6 +11,11 @@ public partial class Entity : CharacterBody2D
     public StateMachine stateMachine;
     public State currentState;
 
+    [Export]
+    MoveComponent moveComponent;
+  //  [Export]
+   // InventoryComponent inventoryComponent;
+
     public override void _Ready()
     {
         base._Ready();
@@ -36,4 +41,13 @@ public partial class Entity : CharacterBody2D
     public void SetCurrentState(State state){
         currentState = state;
     }
+    
+
+    public MoveComponent GetMoveComponent(){
+        return moveComponent;
+    }
+
+    // public InventoryComponent GetInventoryComponent(){
+    //     return inventoryComponent;
+    // }
 }

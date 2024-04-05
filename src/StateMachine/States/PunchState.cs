@@ -113,7 +113,7 @@ public partial class PunchState : AttackState
                 combo = 0;
             }
             Entity character = body as Entity;
-            character.TakeDamage(isFront, 210); //siła i inne pędzlarze może być przekazana z tego stejta zamiast całego plejera
+            character.TakeDamage(isFront, 110); //siła i inne pędzlarze może być przekazana z tego stejta zamiast całego plejera
         }
     }
 }

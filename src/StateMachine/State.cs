@@ -17,6 +17,18 @@ public partial class State : Node
     public MoveComponent moveCompontent;
     public Actions action;
 
+    virtual public void InitState(Entity parent, AnimationPlayer animationPlayer, String animationGroup){
+        
+                this.parent = parent;
+                this.animationPlayer = animationPlayer;
+                this.animationGroup = animationGroup;
+                moveCompontent = parent.GetMoveComponent();
+                InitState();
+    }
+    virtual public void InitState(){
+
+    }
+
     virtual public void Enter(){
         UpdateAnimation(animation);
         //GD.Print(parent.Name+": enter: "+this.Name);
@@ -40,10 +52,6 @@ public partial class State : Node
         else if(moveCompontent.direction==Vector2.Left){
             side = "Left";
         }
-    }
-    
-    public float GetMovementInput(){
-        return moveCompontent.WantMove();
     }
     
     public void UpdateAnimation(String animation){

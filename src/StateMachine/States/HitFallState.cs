@@ -13,7 +13,6 @@ public partial class HitFallState : State
         if(parent.hitDirection==Vector2.Right){
             animation = "hitFrontContinue";
         }else animation = "fall2Continue";
-        GD.Print("hitfall");
         base.Enter();
     }
     public override void PhysicsUpdate(double delta){

@@ -1,18 +1,17 @@
 using Godot;
 using System;
 
-public partial class Item : Node
+public partial class Item : Sprite2D
 {
-    public ItemFlag itemFlags;
+    [Export]
+    ItemData itemData;
+
     public override void _Ready()
     {
-        base._Ready();
+        Texture = itemData.texture;
     }
-}
 
-[Flags]
-public enum ItemFlag{
-    isPickable,
-    isUsable,
-    Food,
+    public ItemData GetItemData(){
+        return itemData;
+    }
 }

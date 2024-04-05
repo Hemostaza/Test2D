@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=4 format=3 uid="uid://dph68bv7ikgd4"]
+
+[ext_resource type="Script" path="res://src/Items/ItemData.cs" id="1_kgweg"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_5krqj"]
+load_path = "res://.godot/imported/decalTiles.png-7997bd976942717cee9a571505e72c93.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5v8hl"]
+atlas = SubResource("CompressedTexture2D_5krqj")
+region = Rect2(0, 16, 16, 16)
+
+[resource]
+script = ExtResource("1_kgweg")
+itemFlags = 2
+name = "Kwiatek"
+texture = SubResource("AtlasTexture_5v8hl")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://cwcc0geuie4n5"]
+[gd_scene load_steps=28 format=3 uid="uid://cwcc0geuie4n5"]
 
 [ext_resource type="Script" path="res://src/PC/pc.cs" id="1_ldsg2"]
 [ext_resource type="Texture2D" uid="uid://bv50oiih8c20u" path="res://Assets/Sheets/Szpak/leftArm.png" id="1_wd1aa"]
@@ -16,6 +16,14 @@
 [ext_resource type="Script" path="res://src/StateMachine/States/PickUpState.cs" id="13_6f6v6"]
 [ext_resource type="Script" path="res://src/StateMachine/States/GetHitState.cs" id="14_vvvbr"]
 [ext_resource type="Script" path="res://src/StateMachine/States/HitFallState.cs" id="15_1nct0"]
+[ext_resource type="Script" path="res://src/Inventory/InventoryComponent.cs" id="17_5nyyw"]
+[ext_resource type="Script" path="res://src/Items/Food.cs" id="18_rqwq1"]
+
+[sub_resource type="Resource" id="Resource_ppmnl"]
+script = ExtResource("18_rqwq1")
+hpREgen = 2
+itemFlags = 0
+name = ""
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_urxhn"]
 size = Vector2(12, 22)
@@ -55,15 +63,37 @@ _data = {
 [sub_resource type="CircleShape2D" id="CircleShape2D_rsmpj"]
 radius = 5.0
 
+[sub_resource type="Resource" id="Resource_oi6ql"]
+script = ExtResource("18_rqwq1")
+hpREgen = 2
+itemFlags = 0
+name = ""
+
+[sub_resource type="Resource" id="Resource_lkyb5"]
+script = ExtResource("18_rqwq1")
+hpREgen = 2
+itemFlags = 0
+name = ""
+
+[sub_resource type="Resource" id="Resource_n4dll"]
+script = ExtResource("18_rqwq1")
+hpREgen = 2
+itemFlags = 0
+name = ""
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_tseh0"]
 radius = 12.0416
 
-[node name="CharacterBody2D" type="CharacterBody2D" node_paths=PackedStringArray("stateMachine") groups=["Player"]]
+[node name="CharacterBody2D" type="CharacterBody2D" node_paths=PackedStringArray("inventoryComponent", "stateMachine", "moveComponent") groups=["Player"]]
 collision_layer = 2
 collision_mask = 5
 script = ExtResource("1_ldsg2")
+inventoryComponent = NodePath("InventoryComponent")
+chuj = SubResource("Resource_ppmnl")
 safeTimeInAir = 1.0
 stateMachine = NodePath("StateMachine")
+moveComponent = NodePath("MoveComponent")
+metadata/_edit_horizontal_guides_ = [-243.0]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -10)
@@ -81,39 +111,38 @@ libraries = {
 position = Vector2(1, -19)
 
 [node name="Main" type="Sprite2D" parent="Sprite"]
-position = Vector2(-2, 0)
 texture = ExtResource("2_wa88d")
 hframes = 10
 vframes = 6
-frame = 48
+frame = 55
 
 [node name="LeftSide" type="Node2D" parent="Sprite/Main"]
 
 [node name="armL" type="Sprite2D" parent="Sprite/Main/LeftSide"]
-position = Vector2(10, 8)
+position = Vector2(0, 5)
 texture = ExtResource("1_wd1aa")
 offset = Vector2(0, 4)
 hframes = 10
 vframes = 6
-frame = 48
+frame = 55
 
 [node name="legL" type="Sprite2D" parent="Sprite/Main/LeftSide"]
 show_behind_parent = true
-position = Vector2(1, 12)
+position = Vector2(2, 2)
 texture = ExtResource("3_hrlyi")
 offset = Vector2(0, 4)
 hframes = 10
 vframes = 6
-frame = 48
+frame = 55
 
 [node name="armR" type="Sprite2D" parent="Sprite"]
 show_behind_parent = true
-position = Vector2(8, 11)
+position = Vector2(-12, 2)
 texture = ExtResource("3_633io")
 offset = Vector2(0, 3)
 hframes = 10
 vframes = 6
-frame = 48
+frame = 55
 
 [node name="PunchHitBox" type="Area2D" parent="Sprite/armR"]
 collision_layer = 2
@@ -123,12 +152,11 @@ collision_mask = 5
 position = Vector2(-14, 1)
 shape = SubResource("CircleShape2D_rsmpj")
 
-[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initialState", "animationPlayer", "moveComponent", "parent")]
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initialState", "animationPlayer", "parent")]
 script = ExtResource("5_iwydl")
 initialState = NodePath("Fall")
 animationPlayer = NodePath("../AnimationPlayer")
 animationGroup = "PC"
-moveComponent = NodePath("../MoveComponent")
 parent = NodePath("..")
 
 [node name="Idle" type="Node" parent="StateMachine"]
@@ -162,6 +190,10 @@ script = ExtResource("15_1nct0")
 
 [node name="MoveComponent" type="Node" parent="."]
 script = ExtResource("6_h1uvt")
+
+[node name="InventoryComponent" type="Node" parent="."]
+script = ExtResource("17_5nyyw")
+itemsData = [SubResource("Resource_oi6ql"), SubResource("Resource_lkyb5"), SubResource("Resource_n4dll")]
 
 [node name="InteractArea" type="Area2D" parent="."]
 collision_layer = 2

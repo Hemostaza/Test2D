@@ -1,0 +1,27 @@
+[gd_scene load_steps=2 format=3 uid="uid://d2vya0gb12u5q"]
+
+[ext_resource type="PackedScene" uid="uid://u1kp45v8umeb" path="res://Scenes/slot.tscn" id="2_xd5xt"]
+
+[node name="Inventory" type="Node"]
+
+[node name="GridContainer" type="GridContainer" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -28.0
+offset_top = -40.0
+offset_right = 28.0
+grow_horizontal = 2
+grow_vertical = 0
+columns = 3
+
+[node name="Slot1" parent="GridContainer" instance=ExtResource("2_xd5xt")]
+layout_mode = 2
+
+[node name="Slot2" parent="GridContainer" instance=ExtResource("2_xd5xt")]
+layout_mode = 2
+
+[node name="Slot3" parent="GridContainer" instance=ExtResource("2_xd5xt")]
+layout_mode = 2

@@ -11,8 +11,6 @@ public partial class StateMachine : Node
     [Export]
     String animationGroup;
     [Export]
-    MoveComponent moveComponent;
-    [Export]
     Entity parent;
     State currentState;
     Dictionary<String, State> states = new Dictionary<string, State>();
@@ -22,11 +20,8 @@ public partial class StateMachine : Node
 
             if(child.GetType().IsSubclassOf(typeof(State))){
                 states[child.Name] = child;
-                child.parent = parent;
                 child.transitioned += OnChildTransition;
-                child.animationPlayer = animationPlayer;
-                child.animationGroup = animationGroup;
-                child.moveCompontent = moveComponent;
+                child.InitState(parent, animationPlayer, animationGroup);
             }
         }
         if(initialState!=null){
@@ -70,6 +65,7 @@ public partial class StateMachine : Node
         
         newState.Enter();
         currentState = newState;
+
         parent.SetCurrentState(currentState);
     }
 

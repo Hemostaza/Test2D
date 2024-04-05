@@ -1,10 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://co1ar7rhwjllx"]
+[gd_scene load_steps=12 format=3 uid="uid://co1ar7rhwjllx"]
 
 [ext_resource type="PackedScene" uid="uid://cwcc0geuie4n5" path="res://Scenes/pc.tscn" id="1_mxk4o"]
-[ext_resource type="Texture2D" uid="uid://cafg3ge32mk66" path="res://Assets/groundTiles.png" id="2_1ysxb"]
+[ext_resource type="PackedScene" uid="uid://d2vya0gb12u5q" path="res://Scenes/inventory.tscn" id="1_yccbv"]
+[ext_resource type="Texture2D" uid="uid://cafg3ge32mk66" path="res://Assets/Test/groundTiles.png" id="2_1ysxb"]
 [ext_resource type="PackedScene" uid="uid://1eokv4j58342" path="res://Scenes/testEnemy.tscn" id="2_23upm"]
-[ext_resource type="PackedScene" uid="uid://d1nlj1u8iyqgw" path="res://Scenes/Food.tscn" id="4_dsqwg"]
-[ext_resource type="Script" path="res://src/Items/Food.cs" id="5_a1ikd"]
+[ext_resource type="PackedScene" uid="uid://d1nlj1u8iyqgw" path="res://Scenes/Food.tscn" id="5_5523o"]
+[ext_resource type="Resource" uid="uid://drd1ynf13k5tk" path="res://Resources/szyszka.tres" id="7_jq0qw"]
+[ext_resource type="Script" path="res://src/Items/Food.cs" id="7_xnid0"]
+[ext_resource type="Texture2D" uid="uid://ui3qlos2u2io" path="res://Assets/Atlases/test.tres" id="8_n34fg"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2j880"]
 texture = ExtResource("2_1ysxb")
@@ -141,7 +144,18 @@ texture = ExtResource("2_1ysxb")
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_2j880")
 
+[sub_resource type="Resource" id="Resource_iqi7b"]
+script = ExtResource("7_xnid0")
+hpREgen = 2
+itemFlags = 18
+name = "Chuj"
+texture = ExtResource("8_n34fg")
+
 [node name="World" type="Node2D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Inventory" parent="CanvasLayer" instance=ExtResource("1_yccbv")]
 
 [node name="TileMap" type="TileMap" parent="."]
 z_index = -1
@@ -171,13 +185,17 @@ position = Vector2(60, 95)
 [node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
 position = Vector2(2, 19)
 
+[node name="Camera2D2" type="Camera2D" parent="CharacterBody2D"]
+position = Vector2(-60, -95)
+
 [node name="Enemy" parent="." instance=ExtResource("2_23upm")]
 position = Vector2(147, 96)
 safeTimeInAir = 1.0
 
-[node name="Apple" parent="." instance=ExtResource("4_dsqwg")]
-position = Vector2(-49, 247)
-script = ExtResource("5_a1ikd")
+[node name="FoodItem" parent="." instance=ExtResource("5_5523o")]
+position = Vector2(147, 219)
+itemData = ExtResource("7_jq0qw")
 
-[node name="FoodItem" parent="." instance=ExtResource("4_dsqwg")]
-position = Vector2(-43, 206)
+[node name="FoodItem2" parent="." instance=ExtResource("5_5523o")]
+position = Vector2(62, 218)
+itemData = SubResource("Resource_iqi7b")

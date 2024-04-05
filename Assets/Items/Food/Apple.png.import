@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cm7ubxdvmiocb"
-path="res://.godot/imported/decalTiles.png-0afc798051a9ec034ef03a5c4de88d1b.ctex"
+uid="uid://bxcuxrdvcl6md"
+path="res://.godot/imported/Apple.png-0a588c81cfc9fa13b9a7818e20b0bf5c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/decalTiles.png"
-dest_files=["res://.godot/imported/decalTiles.png-0afc798051a9ec034ef03a5c4de88d1b.ctex"]
+source_file="res://Assets/Items/Food/Apple.png"
+dest_files=["res://.godot/imported/Apple.png-0a588c81cfc9fa13b9a7818e20b0bf5c.ctex"]
 
 [params]
 

@@ -3,9 +3,6 @@ using System;
 
 public partial class testEnemy : Entity
 {
-    [Export]
-    EnemyAI moveComponent;
-
     int maxHit = 3;
 
     public override void _PhysicsProcess(double delta)
@@ -15,7 +12,7 @@ public partial class testEnemy : Entity
         Falling();
     }
 
-    public override void TakeDamage(Vector2 hitDirection, double power)
+    public override void TakeDamage(Vector2 hitDirection, double power) //można przeciazyc no jo xD
     {
         base.TakeDamage(hitDirection, power);
         

@@ -5,23 +5,37 @@ using System.Linq;
 
 public partial class pc : Entity
 {
+    [Export]
+    InventoryComponent inventoryComponent;
+
+    [Export]
+    ItemData chuj;
 
     public List<Item> focusedItem = new List<Item>();
-    [Export]
-    Area2D interactionArea;
+    //public Dictionary<Item,ItemData> focusedItem = new Dictionary<Item, ItemData>();
+
+    // public InventoryData GetInventoryData(){
+    //     return inventoryData;
+    // }
+
+    public override void _Ready()
+    {
+        base._Ready();
+        //GD.Print(inventoryComponent.GetItemDataFromSlot(0).GetType());
+        //GD.Print(inventoryComponent.TryInsertItem(chuj));
+    }
+
     public override void _PhysicsProcess(double delta)
     {
         base._PhysicsProcess(delta);
         Falling();
         if(Input.IsActionJustPressed("interact") && focusedItem.Any()){
-            //if(focusedItem.HasMethod("PickUp")){
-                if(focusedItem[0].itemFlags.HasFlag(ItemFlag.isPickable)){
+                if(focusedItem[0].GetItemData().itemFlags.HasFlag(ItemFlag.isPickable)){
+                    GD.Print("chuj");
                     stateMachine.ChangeState("PickUp");
-                }
-                
-            //}
+                    (currentState as PickUpState).SetFocusedItem(focusedItem[0]);
+            }
         }
-
     }
 
 
@@ -29,9 +43,8 @@ public partial class pc : Entity
         Item ins = area2D.GetParent() as Item;
         GD.Print("entered "+ins.Name);
         if(ins!=null){
-            focusedItem.Insert(0,ins);
+            focusedItem.Add(ins);
         }
-        GD.Print("focused item = "+focusedItem.ToString());
     }
 
     void OnInteractAreaExited(Area2D area2D){
@@ -40,7 +53,5 @@ public partial class pc : Entity
         if(ins!=null){
             focusedItem.Remove(ins);
         }
-        
-            GD.Print("focused item = "+focusedItem.ToString());
     }
 }

@@ -1,12 +1,8 @@
 using Godot;
 using System;
-
-public partial class Food : Item
+[GlobalClass]
+public partial class Food : ItemData
 {
-    public override void _Ready()
-    {
-        itemFlags = ItemFlag.isPickable | ItemFlag.Food;
-        base._Ready();
-    }
-    
+    [Export]
+    int hpREgen = 2;
 }

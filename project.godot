@@ -15,13 +15,17 @@ run/main_scene="res://Scenes/world.tscn"
 config/features=PackedStringArray("4.1", "C#", "Mobile")
 config/icon="res://icon.svg"
 
+[autoload]
+
+ImportData="*res://Assets/Test/ImportData.cs"
+
 [display]
 
 window/size/resizable=false
 window/stretch/mode="canvas_items"
 window/stretch/aspect="ignore"
 window/stretch/scale=2.0
-mouse_cursor/custom_image="res://Assets/New Piskel (38).png"
+mouse_cursor/custom_image="res://Assets/Test/New Piskel (38).png"
 
 [dotnet]
 

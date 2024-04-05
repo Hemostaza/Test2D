@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="InventoryData" load_steps=2 format=3 uid="uid://dq6g7v417hmxa"]
+
+[ext_resource type="Script" path="res://src/Inventory/InventoryData.cs" id="1_86wkp"]
+
+[resource]
+script = ExtResource("1_86wkp")
+items = [null, null, null]

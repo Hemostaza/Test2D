@@ -13,7 +13,7 @@ public partial class GetHitState : State
     public override void Enter()
     {
         timeInHitState=0;
-        if(parent.hitDirection==Vector2.Right){
+        if(parent.hitDirection==Vector2.Right || parent.hitDirection==Vector2.Zero){
             animation = "hitFront";
         }else animation = "hitBack";
         base.Enter();
@@ -38,13 +38,12 @@ public partial class GetHitState : State
     }
 
     public void GetHit(double power){
-        GD.Print("Current hit: "+currentHit);
         parent.Velocity = new Vector2(parent.hitDirection.X*10,0);
         timeInHitState=0;
         currentHit+=1;
         if(currentHit>=maxHit){
             EmitSignal(SignalName.transitioned,this,"HitFall");
-            parent.Velocity = new Vector2(parent.hitDirection.X*(float)power,-350);
+            parent.Velocity = new Vector2(parent.hitDirection.X*(float)power,-150);
         }
     }
 

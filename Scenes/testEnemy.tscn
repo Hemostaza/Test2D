@@ -22,13 +22,13 @@ size = Vector2(12, 32)
 [sub_resource type="CircleShape2D" id="CircleShape2D_0v1k4"]
 radius = 5.0
 
-[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("moveComponent", "stateMachine")]
+[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("stateMachine", "moveComponent")]
 position = Vector2(60, 95)
 collision_layer = 4
 collision_mask = 3
 script = ExtResource("1_13uk7")
-moveComponent = NodePath("MoveComponent")
 stateMachine = NodePath("StateMachine")
+moveComponent = NodePath("MoveComponent")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -14)
@@ -46,39 +46,39 @@ modulate = Color(0.627451, 0.74902, 1, 1)
 position = Vector2(1, -19)
 
 [node name="Main" type="Sprite2D" parent="Sprite"]
-position = Vector2(-2, 0)
+position = Vector2(0, 3)
 texture = ExtResource("2_4pp64")
 hframes = 10
 vframes = 6
-frame = 49
+frame = 26
 
 [node name="LeftSide" type="Node2D" parent="Sprite/Main"]
+show_behind_parent = true
 
 [node name="armL" type="Sprite2D" parent="Sprite/Main/LeftSide"]
-position = Vector2(9, 17)
+show_behind_parent = true
+position = Vector2(12, 2)
 texture = ExtResource("3_0x1ic")
 offset = Vector2(0, 4)
 hframes = 10
 vframes = 6
-frame = 49
+frame = 26
 
 [node name="legL" type="Sprite2D" parent="Sprite/Main/LeftSide"]
-show_behind_parent = true
-position = Vector2(0, 18)
+position = Vector2(1, 3)
 texture = ExtResource("4_47djv")
 offset = Vector2(0, 4)
 hframes = 10
 vframes = 6
-frame = 49
+frame = 26
 
 [node name="armR" type="Sprite2D" parent="Sprite"]
-show_behind_parent = true
-position = Vector2(1, 20)
+position = Vector2(3, 6)
 texture = ExtResource("5_qhm7k")
 offset = Vector2(0, 3)
 hframes = 10
 vframes = 6
-frame = 49
+frame = 26
 
 [node name="PunchHitBox" type="Area2D" parent="Sprite/armR"]
 collision_layer = 4
@@ -88,12 +88,11 @@ collision_mask = 2
 position = Vector2(15, 1)
 shape = SubResource("CircleShape2D_0v1k4")
 
-[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initialState", "animationPlayer", "moveComponent", "parent")]
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initialState", "animationPlayer", "parent")]
 script = ExtResource("6_7qe0l")
 initialState = NodePath("Idle")
 animationPlayer = NodePath("../AnimationPlayer")
 animationGroup = "PC"
-moveComponent = NodePath("../MoveComponent")
 parent = NodePath("..")
 
 [node name="Idle" type="Node" parent="StateMachine"]
