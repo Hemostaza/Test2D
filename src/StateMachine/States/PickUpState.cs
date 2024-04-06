@@ -5,19 +5,21 @@ using System.Data;
 public partial class PickUpState : State
 {
     Item focusedItem;
-    pc pc;
-    //InventoryComponent inventoryComponent;
+    //pc pc;
+    [Export]
+    InventoryComponent inventoryComponent;
     public override void InitState()
     {
         base.InitState();
-        pc = parent as pc;
-        if(pc==null){
-            throw new NullReferenceException();
-        }
+        // pc = parent as pc;
+        // if(pc==null){
+        //     throw new NullReferenceException();
+        // }
        // inventoryComponent = parent.GetInventoryComponent();
     }
     public override void Enter(){
         GD.Print("pikap stejt");
+        
         //focusedItem = pc.focusedItem[0];
        // inventoryComponent.PutItemInInventory(focusedItem);
     }
@@ -35,5 +37,6 @@ public partial class PickUpState : State
 
     public void SetFocusedItem(Item focusedItem){
         this.focusedItem = focusedItem;
+        inventoryComponent.UpdateInventory(focusedItem);
     }
 }

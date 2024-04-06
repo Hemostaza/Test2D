@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://cwcc0geuie4n5"]
+[gd_scene load_steps=24 format=3 uid="uid://cwcc0geuie4n5"]
 
 [ext_resource type="Script" path="res://src/PC/pc.cs" id="1_ldsg2"]
 [ext_resource type="Texture2D" uid="uid://bv50oiih8c20u" path="res://Assets/Sheets/Szpak/leftArm.png" id="1_wd1aa"]
@@ -16,14 +16,8 @@
 [ext_resource type="Script" path="res://src/StateMachine/States/PickUpState.cs" id="13_6f6v6"]
 [ext_resource type="Script" path="res://src/StateMachine/States/GetHitState.cs" id="14_vvvbr"]
 [ext_resource type="Script" path="res://src/StateMachine/States/HitFallState.cs" id="15_1nct0"]
-[ext_resource type="Script" path="res://src/Inventory/InventoryComponent.cs" id="17_5nyyw"]
-[ext_resource type="Script" path="res://src/Items/Food.cs" id="18_rqwq1"]
-
-[sub_resource type="Resource" id="Resource_ppmnl"]
-script = ExtResource("18_rqwq1")
-hpREgen = 2
-itemFlags = 0
-name = ""
+[ext_resource type="Script" path="res://src/InventoryComponent.cs" id="18_4ejxx"]
+[ext_resource type="Resource" uid="uid://d8w4psq4gcmo" path="res://pcInventory.tres" id="19_x7upo"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_urxhn"]
 size = Vector2(12, 22)
@@ -63,24 +57,6 @@ _data = {
 [sub_resource type="CircleShape2D" id="CircleShape2D_rsmpj"]
 radius = 5.0
 
-[sub_resource type="Resource" id="Resource_oi6ql"]
-script = ExtResource("18_rqwq1")
-hpREgen = 2
-itemFlags = 0
-name = ""
-
-[sub_resource type="Resource" id="Resource_lkyb5"]
-script = ExtResource("18_rqwq1")
-hpREgen = 2
-itemFlags = 0
-name = ""
-
-[sub_resource type="Resource" id="Resource_n4dll"]
-script = ExtResource("18_rqwq1")
-hpREgen = 2
-itemFlags = 0
-name = ""
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_tseh0"]
 radius = 12.0416
 
@@ -89,7 +65,6 @@ collision_layer = 2
 collision_mask = 5
 script = ExtResource("1_ldsg2")
 inventoryComponent = NodePath("InventoryComponent")
-chuj = SubResource("Resource_ppmnl")
 safeTimeInAir = 1.0
 stateMachine = NodePath("StateMachine")
 moveComponent = NodePath("MoveComponent")
@@ -179,8 +154,9 @@ script = ExtResource("11_1vnvd")
 jumpForce = 350.0
 chargeMultiplier = 200.0
 
-[node name="PickUp" type="Node" parent="StateMachine"]
+[node name="PickUp" type="Node" parent="StateMachine" node_paths=PackedStringArray("inventoryComponent")]
 script = ExtResource("13_6f6v6")
+inventoryComponent = NodePath("../../InventoryComponent")
 
 [node name="GetHit" type="Node" parent="StateMachine"]
 script = ExtResource("14_vvvbr")
@@ -192,8 +168,8 @@ script = ExtResource("15_1nct0")
 script = ExtResource("6_h1uvt")
 
 [node name="InventoryComponent" type="Node" parent="."]
-script = ExtResource("17_5nyyw")
-itemsData = [SubResource("Resource_oi6ql"), SubResource("Resource_lkyb5"), SubResource("Resource_n4dll")]
+script = ExtResource("18_4ejxx")
+inventoryData = ExtResource("19_x7upo")
 
 [node name="InteractArea" type="Area2D" parent="."]
 collision_layer = 2

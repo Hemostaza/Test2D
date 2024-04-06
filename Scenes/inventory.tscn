@@ -1,8 +1,29 @@
-[gd_scene load_steps=2 format=3 uid="uid://d2vya0gb12u5q"]
+[gd_scene load_steps=8 format=3 uid="uid://d2vya0gb12u5q"]
 
+[ext_resource type="Script" path="res://src/Inventory/InventoryGUI.cs" id="1_46kyi"]
 [ext_resource type="PackedScene" uid="uid://u1kp45v8umeb" path="res://Scenes/slot.tscn" id="2_xd5xt"]
 
-[node name="Inventory" type="Node"]
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_yjlsu"]
+load_path = "res://.godot/imported/New Piskel (42).png-14c7720ce13b1e1ae4ccce8f048953fb.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fyqcm"]
+atlas = SubResource("CompressedTexture2D_yjlsu")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_grb1v"]
+load_path = "res://.godot/imported/New Piskel (42).png-14c7720ce13b1e1ae4ccce8f048953fb.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w7o7x"]
+atlas = SubResource("CompressedTexture2D_grb1v")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lu5mj"]
+atlas = SubResource("CompressedTexture2D_grb1v")
+region = Rect2(16, 0, 16, 16)
+
+[node name="Inventory" type="Node" node_paths=PackedStringArray("slots")]
+script = ExtResource("1_46kyi")
+slots = [NodePath("GridContainer/Slot1"), NodePath("GridContainer/Slot2"), NodePath("GridContainer/Slot3")]
 
 [node name="GridContainer" type="GridContainer" parent="."]
 anchors_preset = 7
@@ -19,9 +40,12 @@ columns = 3
 
 [node name="Slot1" parent="GridContainer" instance=ExtResource("2_xd5xt")]
 layout_mode = 2
+texture = SubResource("AtlasTexture_fyqcm")
 
 [node name="Slot2" parent="GridContainer" instance=ExtResource("2_xd5xt")]
 layout_mode = 2
+texture = SubResource("AtlasTexture_w7o7x")
 
 [node name="Slot3" parent="GridContainer" instance=ExtResource("2_xd5xt")]
 layout_mode = 2
+texture = SubResource("AtlasTexture_lu5mj")

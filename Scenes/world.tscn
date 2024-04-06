@@ -152,10 +152,12 @@ name = "Chuj"
 texture = ExtResource("8_n34fg")
 
 [node name="World" type="Node2D"]
+metadata/_edit_horizontal_guides_ = [28.0]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="Inventory" parent="CanvasLayer" instance=ExtResource("1_yccbv")]
+[node name="Inventory" parent="CanvasLayer" node_paths=PackedStringArray("player") instance=ExtResource("1_yccbv")]
+player = NodePath("../../CharacterBody2D")
 
 [node name="TileMap" type="TileMap" parent="."]
 z_index = -1
@@ -184,9 +186,6 @@ position = Vector2(60, 95)
 
 [node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
 position = Vector2(2, 19)
-
-[node name="Camera2D2" type="Camera2D" parent="CharacterBody2D"]
-position = Vector2(-60, -95)
 
 [node name="Enemy" parent="." instance=ExtResource("2_23upm")]
 position = Vector2(147, 96)

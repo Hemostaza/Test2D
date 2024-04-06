@@ -14,6 +14,11 @@ public partial class ItemData : Resource
     public ItemFlag GetItemFlags(){
         return itemFlags;
     }
+
+    public override string ToString()
+    {
+        return name;
+    }
 }
 
 [Flags]
