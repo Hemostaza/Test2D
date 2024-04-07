@@ -19,6 +19,9 @@ public partial class ItemData : Resource
     {
         return name;
     }
+
+    public virtual void UseItem(){
+    }
 }
 
 [Flags]
@@ -28,4 +31,5 @@ public enum ItemFlag{
     isUsable = 4,
     stackable = 8,
     food = 16,
+    weapon = 32,
 }

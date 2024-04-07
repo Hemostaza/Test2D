@@ -6,6 +6,7 @@ public partial class IdleState : State
 {
     public override void Enter(){
         animation = "idle";
+        GD.Print(parent.GetActiveItem());
         base.Enter();
     }
     public override void PhysicsUpdate(double delta)
@@ -26,6 +27,9 @@ public partial class IdleState : State
 
         if(parent.IsOnFloor() && action==Actions.JUMP){
             EmitSignal(SignalName.transitioned,this,"Jump");
+        }
+        if(action==Actions.SHOOT){
+            EmitSignal(SignalName.transitioned,this,"Shoot");
         }
     }
 }

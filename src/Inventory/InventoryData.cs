@@ -37,7 +37,7 @@ public partial class InventoryData : Resource
             return -1;
         }
         itemsData[insertToSlot] = itemData;
-        GD.Print("Item inserted");
+        GD.Print("Item inserted to: "+insertToSlot);
         return insertToSlot;
     }
 

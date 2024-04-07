@@ -11,6 +11,6 @@ region = Rect2(0, 0, 16, 16)
 
 [resource]
 script = ExtResource("1_4nlaf")
-itemFlags = 0
+itemFlags = 34
 name = "Dupa"
 texture = SubResource("AtlasTexture_ejs4c")

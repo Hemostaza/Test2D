@@ -6,8 +6,10 @@ public partial class SlotData : TextureRect
     [Export]
     public Sprite2D itemSprite;
 
+    Rect2 inactiveRect = new Rect2(16,0,16,16);
+    Rect2 activeRect = new Rect2(0,0,16,16);
+
     public void UpdateSlot(Item item){
-        GD.Print("Update slot:"+item);
         ItemData itemData = item.GetItemData();
         if(item==null){
             itemSprite.Visible = false;
@@ -19,10 +21,10 @@ public partial class SlotData : TextureRect
     }
 
     public void SetActiveSlot(){
-        (Texture as AtlasTexture).Region = new Rect2(0,0,16,16);
+        (Texture as AtlasTexture).Region = activeRect;
     }
 
     public void SetInactiveSlot(){
-        (Texture as AtlasTexture).Region = new Rect2(16,0,16,16);
+        (Texture as AtlasTexture).Region = inactiveRect;
     }
 }

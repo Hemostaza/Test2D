@@ -30,4 +30,5 @@ public enum Actions {
         FALL,
         GETHIT,
         PICKUP,
+        SHOOT,
     }

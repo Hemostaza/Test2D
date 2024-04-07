@@ -31,6 +31,9 @@ public partial class WalkState : State
         if(action==Actions.JUMP){
             EmitSignal(SignalName.transitioned,this,"Jump");
         }
+        if(action==Actions.SHOOT){
+            EmitSignal(SignalName.transitioned,this,"Shoot");
+        }
 
     }
     public override void Exit(){

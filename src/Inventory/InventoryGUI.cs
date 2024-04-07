@@ -10,7 +10,8 @@ public partial class InventoryGUI : Node
     int activeSlot = 0;
     public override void _Ready()
     {
-        player.inventoryComponent.updateActiveInventory += UpdateActiveSlot;
+        player.inventoryComponent.updateActiveSlot += UpdateActiveSlot;
+        player.inventoryComponent.updateInactiveSlot += UpdateInactiveSlot;
         player.inventoryComponent.updateSlot += UpdateSlot;
 
     }
@@ -21,22 +22,15 @@ public partial class InventoryGUI : Node
         }
     }
 
-    void UpdateActiveSlot(int slot){
-        if(activeSlot==slot){
-            activeSlot= -1;
-            InactiveSlots();
-            return;
+    void UpdateActiveSlot(int slot, int previousSlot){
+        
+        if(previousSlot>0){
+            slots[previousSlot-1].SetInactiveSlot();
         }
-        for (int i = 0; i < slots.Length; i++)
-        {
-            if(i==slot-1 && activeSlot!=slot){
-                slots[i].SetActiveSlot();
-                activeSlot = slot;
-            }
-            else {
-                slots[i].SetInactiveSlot();
-            }
-        }
+        slots[slot-1].SetActiveSlot();
+    }
+    void UpdateInactiveSlot(int slot){
+        slots[slot-1].SetInactiveSlot();
     }
     void InactiveSlots(){
         foreach (SlotData slot in slots)

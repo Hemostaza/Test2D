@@ -7,8 +7,6 @@ public partial class pc : Entity
 {
     [Export]
     public InventoryComponent inventoryComponent;
-    //[Export]
-    InventoryGUI inventoryGUI;
 
     public List<Item> focusedItem = new List<Item>();
 
@@ -21,17 +19,16 @@ public partial class pc : Entity
     {
         base._PhysicsProcess(delta);
         Falling();
-        inventoryComponent.GetKeySlot();
+        //inventoryComponent.GetKeySlot();
 
         if(Input.IsActionJustPressed("interact") && focusedItem.Any()){
                 if(focusedItem[0].GetItemData().itemFlags.HasFlag(ItemFlag.isPickable)){
                     GD.Print("chuj");
                     stateMachine.ChangeState("PickUp");
-                    (currentState as PickUpState).SetFocusedItem(focusedItem[0]);
+                    //(currentState as PickUpState).SetFocusedItem(focusedItem[0]);
             }
         }
     }
-
 
     void OnInteractAreaEntered(Area2D area2D){
         Item ins = area2D.GetParent() as Item;
@@ -47,5 +44,10 @@ public partial class pc : Entity
         if(ins!=null){
             focusedItem.Remove(ins);
         }
+    }
+
+    public override ItemData GetActiveItem()
+    {
+        return inventoryComponent.GetActiveItem();
     }
 }

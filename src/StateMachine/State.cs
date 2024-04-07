@@ -15,6 +15,7 @@ public partial class State : Node
     public String animationGroup;
     String fullAnimationName;
     public MoveComponent moveCompontent;
+    //public InventoryComponent inventoryComponent;
     public Actions action;
 
     virtual public void InitState(Entity parent, AnimationPlayer animationPlayer, String animationGroup){

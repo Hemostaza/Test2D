@@ -8,7 +8,7 @@ public partial class AttackState : State
     public bool isAttacking;
 
     public override void Enter(){
-        this.attackLenght = parent.attackLenght;
+        attackLenght = parent.attackLenght;
         base.Enter();
     }
 

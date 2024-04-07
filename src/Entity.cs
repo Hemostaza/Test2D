@@ -13,6 +13,7 @@ public partial class Entity : CharacterBody2D
 
     [Export]
     MoveComponent moveComponent;
+    ItemData activeItem;
   //  [Export]
    // InventoryComponent inventoryComponent;
 
@@ -36,6 +37,13 @@ public partial class Entity : CharacterBody2D
     public Vector2 hitDirection = Vector2.Zero;
     public virtual void TakeDamage(Vector2 hitDirection, double power){
         this.hitDirection = hitDirection;
+    }
+    //Ustawienie aktywnego itemu
+    public virtual void SetActiveItem(ItemData itemData){
+        activeItem = itemData;
+    }
+    public virtual ItemData GetActiveItem(){
+        return null;
     }
 
     public void SetCurrentState(State state){
