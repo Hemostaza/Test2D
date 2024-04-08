@@ -166,9 +166,9 @@ script = ExtResource("15_1nct0")
 [node name="Shoot" type="Node" parent="StateMachine"]
 script = ExtResource("16_8r1tp")
 
-[node name="MoveComponent" type="Node" parent="." node_paths=PackedStringArray("player")]
+[node name="MoveComponent" type="Node" parent="." node_paths=PackedStringArray("inventoryComponent")]
 script = ExtResource("6_h1uvt")
-player = NodePath("..")
+inventoryComponent = NodePath("../InventoryComponent")
 
 [node name="InventoryComponent" type="Node" parent="." node_paths=PackedStringArray("ItemNode")]
 script = ExtResource("18_4ejxx")

@@ -6,7 +6,7 @@ using System.Linq;
 public partial class PlayerMoveComponent : MoveComponent
 {   
     [Export]
-    pc player;
+    InventoryComponent inventoryComponent;
     public override float WantMove(){
         float movement = Input.GetActionStrength("right") - Input.GetActionStrength("left");
         if(movement>0){
@@ -46,7 +46,7 @@ public partial class PlayerMoveComponent : MoveComponent
 
     public override List<Actions> GetActions()
     {
-        ItemData activeItem = player.GetActiveItem();
+        ItemData activeItem = inventoryComponent.GetActiveItem();
         actions = new List<Actions>();
         if(activeItem!=null && activeItem.GetItemFlags().HasFlag(ItemFlag.weapon)){
            if(Input.IsActionJustReleased("fire")) actions.Add(Actions.SHOOT);
