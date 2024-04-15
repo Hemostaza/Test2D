@@ -1,41 +1,45 @@
 using Godot;
-using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public partial class EnemyAI : MoveComponent
 {
-    public override List<Actions> GetActions()
-    {
-        List<Actions> actions = new List<Actions>();
-        actions.Add(Actions.IDLE);
-        return actions;
-    }
+    Vector2 targetPosition;
+    Entity target;
+    testEnemy parent;
 
-    public override bool WantAttackPress(bool isPressed)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override bool WantAttackRelease()
-    {
-        throw new NotImplementedException();
-    }
-
-    public override bool WantJump(bool isPressed)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override bool WantJumpRelease()
-    {
-        throw new NotImplementedException();
+    public void SetParent(testEnemy parent){
+        this.parent = parent;
     }
 
     public override float WantMove()
     {
-        direction=Vector2.Left;
-        return -1;
-        //throw new NotImplementedException();
+        float movement;
+        movement = TargetDirection();
+
+        if(movement>0){
+            direction = Vector2.Right; // wyjebac?
+            //parent.SetFacingDirection(Vector2.Right);
+        }else if(movement<0){
+            direction = Vector2.Left; // wyjebac?
+            //parent.SetFacingDirection(Vector2.Left);
+        }
+        return movement;
+    }
+
+    public float TargetDirection(){
+        if(target==null){
+            return 0;
+        }
+        Vector2 dirX = target.Position - parent.Position;
+        return dirX.Normalized().X;
+    }
+
+    public void SetTarget(Entity target){
+        this.target = target;
+    }
+    public void SetTarget(Vector2 target){
+        targetPosition = target;
     }
 
 }

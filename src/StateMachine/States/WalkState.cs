@@ -3,7 +3,7 @@ using System;
 
 public partial class WalkState : State
 {
-    float moveSpeed = 0;
+    float moveVelocity = 0;
     public override void Enter(){
         animation = "walk";
         base.Enter();
@@ -11,16 +11,16 @@ public partial class WalkState : State
 
     public override void Update(double delta){
         base.Update(delta);
-        if(moveCompontent.direction.X != moveSpeed){
+        if(moveCompontent.direction.X != moveVelocity){
             UpdateAnimation(animation);
         }
     }
 
     public override void PhysicsUpdate(double delta){
         base.PhysicsUpdate(delta);
-        moveSpeed = moveCompontent.WantMove() * 100;
+        moveVelocity = moveCompontent.WantMove() * 100;
 
-        parent.Velocity = new Vector2(moveSpeed,0);
+        parent.Velocity = new Vector2(moveVelocity,0);
         
         if(action==Actions.IDLE){
             EmitSignal(SignalName.transitioned,this,"Idle");

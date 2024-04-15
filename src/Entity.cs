@@ -11,6 +11,8 @@ public partial class Entity : CharacterBody2D
     public StateMachine stateMachine;
     public State currentState;
 
+    public Vector2 facingDir = Vector2.Zero;
+
     [Export]
     MoveComponent moveComponent;
     ItemData activeItem;
@@ -48,6 +50,14 @@ public partial class Entity : CharacterBody2D
 
     public void SetCurrentState(State state){
         currentState = state;
+    }
+
+    public Vector2 GetFacingDirection(){
+        return facingDir;
+    }
+
+    public void SetFacingDirection(Vector2 dir){
+        facingDir = dir;
     }
     
 

@@ -14,6 +14,7 @@ public partial class State : Node
     public AnimationPlayer animationPlayer;
     public String animationGroup;
     String fullAnimationName;
+    [Export]
     public MoveComponent moveCompontent;
     //public InventoryComponent inventoryComponent;
     public Actions action;
@@ -23,7 +24,7 @@ public partial class State : Node
                 this.parent = parent;
                 this.animationPlayer = animationPlayer;
                 this.animationGroup = animationGroup;
-                moveCompontent = parent.GetMoveComponent();
+                //moveCompontent = parent.move();
                 InitState();
     }
     virtual public void InitState(){
@@ -43,7 +44,8 @@ public partial class State : Node
     }
 
     virtual public void PhysicsUpdate(double delta){
-        action = moveCompontent.GetActions()[0];
+        action = moveCompontent.GetOneAction();
+        //action = moveCompontent.GetActions()[0];
     }
 
     public void UpdateSide(){

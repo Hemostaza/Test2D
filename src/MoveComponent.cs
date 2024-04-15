@@ -8,15 +8,18 @@ public abstract partial class MoveComponent : Node
 
     public List<Actions> actions;
 
+    public Actions oneAction;
+
+    public Actions GetOneAction(){
+        GD.Print(oneAction);
+        return oneAction;
+    }
+
+    public void SetOneAction(Actions action){
+        oneAction = action;
+    }
+
     abstract public float WantMove();
-    abstract public bool WantAttackPress(bool isPressed);
-    abstract public bool WantAttackRelease();
-
-    abstract public bool WantJump(bool isPressed);
-
-    abstract public bool WantJumpRelease();
-
-    abstract public List<Actions> GetActions();
 
 }
 public enum Actions {
@@ -31,4 +34,5 @@ public enum Actions {
         GETHIT,
         PICKUP,
         SHOOT,
+        CROUCH,
     }

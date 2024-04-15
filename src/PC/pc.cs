@@ -7,6 +7,8 @@ public partial class pc : Entity
 {
     [Export]
     public InventoryComponent inventoryComponent;
+    [Export]
+    PlayerMoveComponent moveComponent;
 
     public List<Item> focusedItem = new List<Item>();
 
@@ -18,6 +20,7 @@ public partial class pc : Entity
     public override void _PhysicsProcess(double delta)
     {
         base._PhysicsProcess(delta);
+        moveComponent.GetInput();
         Falling();
         //inventoryComponent.GetKeySlot();
 

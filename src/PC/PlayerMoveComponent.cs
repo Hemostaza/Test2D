@@ -16,54 +16,25 @@ public partial class PlayerMoveComponent : MoveComponent
         }
         return movement;
     }
-
-    public override bool WantAttackPress(bool isHolding){
-        if(isHolding){
-            return Input.IsActionPressed("fire");
-        }else{
-            return Input.IsActionJustPressed("fire");
-        }
-    }
-
-    public override bool WantJump(bool isHolding)
-    {
-        if(isHolding){
-            return Input.IsActionPressed("jump");
-        }else{
-            return Input.IsActionJustPressed("jump");
-        }
-    }
-
-    public override bool WantAttackRelease()
-    {
-        return Input.IsActionJustReleased("fire");
-    }
-
-    public override bool WantJumpRelease()
-    {
-        return Input.IsActionJustReleased("jump");
-    }
-
-    public override List<Actions> GetActions()
+    internal void GetInput()
     {
         ItemData activeItem = inventoryComponent.GetActiveItem();
-        actions = new List<Actions>();
         if(activeItem!=null && activeItem.GetItemFlags().HasFlag(ItemFlag.weapon)){
-           if(Input.IsActionJustReleased("fire")) actions.Add(Actions.SHOOT);
+           if(Input.IsActionJustReleased("fire"))  oneAction = (Actions.SHOOT);
         }else{
-            if(Input.IsActionPressed("fire")) actions.Add(Actions.ATTACK);
-            if(Input.IsActionJustReleased("fire")) actions.Add(Actions.ATTACK_RELEASE);
-            if(Input.IsActionJustPressed("fire")) actions.Add(Actions.ATTACK_PRESSED);
+            if(Input.IsActionPressed("fire"))  oneAction = (Actions.ATTACK);
+            if(Input.IsActionJustReleased("fire"))  oneAction = (Actions.ATTACK_RELEASE);
+            if(Input.IsActionJustPressed("fire"))  oneAction = (Actions.ATTACK_PRESSED);
         }
         //GD.Print(player.inventoryComponent.GetActiveItem());
 
-        if(Input.IsActionPressed("jump")) actions.Add(Actions.JUMP);
-        if(Input.IsActionJustReleased("jump")) actions.Add(Actions.JUMP_RELEASE);
-        if(WantMove()!=0) actions.Add(Actions.WALK);
+        if(WantMove()!=0)  oneAction = (Actions.WALK);
+        if(Input.IsActionPressed("jump"))  oneAction = (Actions.JUMP);
+        if(Input.IsActionJustReleased("jump"))  oneAction = (Actions.JUMP_RELEASE);
         
         if(!actions.Any()){
-            actions.Add(Actions.IDLE);
+            oneAction = Actions.IDLE;
         }
-        return actions;
     }
+
 }

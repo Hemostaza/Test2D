@@ -52,20 +52,20 @@ public partial class PunchState : AttackState
 
     public void ProcessInput(double delta){
         //jak prawa reka i trzyma LPM
-        if(moveCompontent.GetActions().Contains(Actions.ATTACK_PRESSED) && !isCharging && !isAttacking ){
+        if(moveCompontent.GetOneAction() == Actions.ATTACK_PRESSED && !isCharging && !isAttacking ){
             isCharging = true;
         }
-        else if(moveCompontent.GetActions().Contains(Actions.ATTACK) && isRight && isCharging){
+        else if(moveCompontent.GetOneAction() == (Actions.ATTACK) && isRight && isCharging){
             attackLenght = 0.5;
             //animation = "punchCharge";
             UpdateAnimation("punchCharge");//animationPlayer.Play(animation+side);
         }
-        else if(!moveCompontent.GetActions().Contains(Actions.ATTACK) && isRight && chargeTime>0.1 && !isAttacking ){
+        else if(moveCompontent.GetOneAction() != (Actions.ATTACK) && isRight && chargeTime>0.1 && !isAttacking ){
             isCharging=false;
             chargeTime=0;
             Attack();
         }
-        else if(moveCompontent.GetActions().Contains(Actions.ATTACK_PRESSED) && !isRight && attackLenght<0.3){
+        else if(moveCompontent.GetOneAction() == (Actions.ATTACK_PRESSED) && !isRight && attackLenght<0.3){
             Attack();
         }
     }

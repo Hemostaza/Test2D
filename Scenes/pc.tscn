@@ -8,12 +8,12 @@
 [ext_resource type="Texture2D" uid="uid://ghektscgmx13" path="res://Assets/Sheets/Szpak/leftLeg.png" id="3_hrlyi"]
 [ext_resource type="Script" path="res://src/StateMachine/StateMachine.cs" id="5_iwydl"]
 [ext_resource type="Script" path="res://src/PC/PlayerMoveComponent.cs" id="6_h1uvt"]
-[ext_resource type="Script" path="res://src/StateMachine/States/IdleState.cs" id="6_y21ok"]
 [ext_resource type="Script" path="res://src/StateMachine/States/WalkState.cs" id="7_ejaxq"]
-[ext_resource type="Script" path="res://src/StateMachine/States/PunchState.cs" id="9_48q4b"]
+[ext_resource type="Script" path="res://src/StateMachine/States/Player/PlayerIdleState.cs" id="8_oe3g5"]
+[ext_resource type="Script" path="res://src/StateMachine/States/Player/PunchState.cs" id="10_cdulr"]
 [ext_resource type="Script" path="res://src/StateMachine/States/FallState.cs" id="10_xr31j"]
 [ext_resource type="Script" path="res://src/StateMachine/States/JumpState.cs" id="11_1vnvd"]
-[ext_resource type="Script" path="res://src/StateMachine/States/PickUpState.cs" id="13_6f6v6"]
+[ext_resource type="Script" path="res://src/StateMachine/States/Player/PickUpState.cs" id="13_7ixrb"]
 [ext_resource type="Script" path="res://src/StateMachine/States/GetHitState.cs" id="14_vvvbr"]
 [ext_resource type="Script" path="res://src/StateMachine/States/HitFallState.cs" id="15_1nct0"]
 [ext_resource type="Script" path="res://src/StateMachine/States/ShootState.cs" id="16_8r1tp"]
@@ -21,7 +21,7 @@
 [ext_resource type="Resource" uid="uid://d8w4psq4gcmo" path="res://pcInventory.tres" id="19_x7upo"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_urxhn"]
-size = Vector2(12, 22)
+size = Vector2(12, 7)
 
 [sub_resource type="Animation" id="Animation_3ov6n"]
 length = 0.001
@@ -61,18 +61,19 @@ radius = 5.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_tseh0"]
 radius = 12.0416
 
-[node name="CharacterBody2D" type="CharacterBody2D" node_paths=PackedStringArray("inventoryComponent", "stateMachine", "moveComponent") groups=["Player"]]
+[node name="CharacterBody2D" type="CharacterBody2D" node_paths=PackedStringArray("inventoryComponent", "moveComponent", "stateMachine", "moveComponent") groups=["Player"]]
 collision_layer = 2
 collision_mask = 5
 script = ExtResource("1_ldsg2")
 inventoryComponent = NodePath("InventoryComponent")
+moveComponent = NodePath("MoveComponent")
 safeTimeInAir = 1.0
 stateMachine = NodePath("StateMachine")
 moveComponent = NodePath("MoveComponent")
 metadata/_edit_horizontal_guides_ = [-243.0]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -10)
+position = Vector2(0, -2.5)
 shape = SubResource("RectangleShape2D_urxhn")
 debug_color = Color(0, 0.6, 0.701961, 0.419608)
 
@@ -134,37 +135,46 @@ animationPlayer = NodePath("../AnimationPlayer")
 animationGroup = "PC"
 parent = NodePath("..")
 
-[node name="Idle" type="Node" parent="StateMachine"]
-script = ExtResource("6_y21ok")
+[node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("moveCompontent")]
+script = ExtResource("8_oe3g5")
+moveCompontent = NodePath("../../MoveComponent")
 
-[node name="Walk" type="Node" parent="StateMachine"]
+[node name="Walk" type="Node" parent="StateMachine" node_paths=PackedStringArray("moveCompontent")]
 script = ExtResource("7_ejaxq")
+moveCompontent = NodePath("../../MoveComponent")
 
-[node name="Attack" type="Node" parent="StateMachine" node_paths=PackedStringArray("rightArm", "leftArm", "area2D")]
-script = ExtResource("9_48q4b")
+[node name="Attack" type="Node" parent="StateMachine" node_paths=PackedStringArray("rightArm", "leftArm", "area2D", "moveCompontent")]
+script = ExtResource("10_cdulr")
 rightArm = NodePath("../../Sprite/armR")
 leftArm = NodePath("../../Sprite/Main/LeftSide/armL")
 area2D = NodePath("../../Sprite/armR/PunchHitBox")
+moveCompontent = NodePath("../../MoveComponent")
 
-[node name="Fall" type="Node" parent="StateMachine"]
+[node name="Fall" type="Node" parent="StateMachine" node_paths=PackedStringArray("moveCompontent")]
 script = ExtResource("10_xr31j")
+moveCompontent = NodePath("../../MoveComponent")
 
-[node name="Jump" type="Node" parent="StateMachine"]
+[node name="Jump" type="Node" parent="StateMachine" node_paths=PackedStringArray("moveCompontent")]
 script = ExtResource("11_1vnvd")
 jumpForce = 350.0
 chargeMultiplier = 200.0
+moveCompontent = NodePath("../../MoveComponent")
 
-[node name="PickUp" type="Node" parent="StateMachine"]
-script = ExtResource("13_6f6v6")
+[node name="PickUp" type="Node" parent="StateMachine" node_paths=PackedStringArray("moveCompontent")]
+script = ExtResource("13_7ixrb")
+moveCompontent = NodePath("../../MoveComponent")
 
-[node name="GetHit" type="Node" parent="StateMachine"]
+[node name="GetHit" type="Node" parent="StateMachine" node_paths=PackedStringArray("moveCompontent")]
 script = ExtResource("14_vvvbr")
+moveCompontent = NodePath("../../MoveComponent")
 
-[node name="HitFall" type="Node" parent="StateMachine"]
+[node name="HitFall" type="Node" parent="StateMachine" node_paths=PackedStringArray("moveCompontent")]
 script = ExtResource("15_1nct0")
+moveCompontent = NodePath("../../MoveComponent")
 
-[node name="Shoot" type="Node" parent="StateMachine"]
+[node name="Shoot" type="Node" parent="StateMachine" node_paths=PackedStringArray("moveCompontent")]
 script = ExtResource("16_8r1tp")
+moveCompontent = NodePath("../../MoveComponent")
 
 [node name="MoveComponent" type="Node" parent="." node_paths=PackedStringArray("inventoryComponent")]
 script = ExtResource("6_h1uvt")
