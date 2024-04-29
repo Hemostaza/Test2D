@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://dcl13sv2i43ul" path="res://Assets/Sheets/Szpak/rightArm.png" id="3_633io"]
 [ext_resource type="Texture2D" uid="uid://ghektscgmx13" path="res://Assets/Sheets/Szpak/leftLeg.png" id="3_hrlyi"]
 [ext_resource type="Script" path="res://src/StateMachine/StateMachine.cs" id="5_iwydl"]
-[ext_resource type="Script" path="res://src/PC/PlayerMoveComponent.cs" id="6_h1uvt"]
+[ext_resource type="Script" path="res://src/PC/InputComponent.cs" id="6_h1uvt"]
 [ext_resource type="Script" path="res://src/StateMachine/States/WalkState.cs" id="7_ejaxq"]
 [ext_resource type="Script" path="res://src/StateMachine/States/Player/PlayerIdleState.cs" id="8_oe3g5"]
 [ext_resource type="Script" path="res://src/StateMachine/States/Player/PunchState.cs" id="10_cdulr"]
@@ -61,15 +61,14 @@ radius = 5.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_tseh0"]
 radius = 12.0416
 
-[node name="CharacterBody2D" type="CharacterBody2D" node_paths=PackedStringArray("inventoryComponent", "moveComponent", "stateMachine", "moveComponent") groups=["Player"]]
+[node name="CharacterBody2D" type="CharacterBody2D" node_paths=PackedStringArray("inventoryComponent", "inputComponent", "stateMachine") groups=["Player"]]
 collision_layer = 2
 collision_mask = 5
 script = ExtResource("1_ldsg2")
 inventoryComponent = NodePath("InventoryComponent")
-moveComponent = NodePath("MoveComponent")
+inputComponent = NodePath("InputComponent")
 safeTimeInAir = 1.0
 stateMachine = NodePath("StateMachine")
-moveComponent = NodePath("MoveComponent")
 metadata/_edit_horizontal_guides_ = [-243.0]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -135,48 +134,39 @@ animationPlayer = NodePath("../AnimationPlayer")
 animationGroup = "PC"
 parent = NodePath("..")
 
-[node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("moveCompontent")]
+[node name="Idle" type="Node" parent="StateMachine"]
 script = ExtResource("8_oe3g5")
-moveCompontent = NodePath("../../MoveComponent")
 
-[node name="Walk" type="Node" parent="StateMachine" node_paths=PackedStringArray("moveCompontent")]
+[node name="Walk" type="Node" parent="StateMachine"]
 script = ExtResource("7_ejaxq")
-moveCompontent = NodePath("../../MoveComponent")
 
-[node name="Attack" type="Node" parent="StateMachine" node_paths=PackedStringArray("rightArm", "leftArm", "area2D", "moveCompontent")]
+[node name="Attack" type="Node" parent="StateMachine" node_paths=PackedStringArray("rightArm", "leftArm", "area2D")]
 script = ExtResource("10_cdulr")
 rightArm = NodePath("../../Sprite/armR")
 leftArm = NodePath("../../Sprite/Main/LeftSide/armL")
 area2D = NodePath("../../Sprite/armR/PunchHitBox")
-moveCompontent = NodePath("../../MoveComponent")
 
-[node name="Fall" type="Node" parent="StateMachine" node_paths=PackedStringArray("moveCompontent")]
+[node name="Fall" type="Node" parent="StateMachine"]
 script = ExtResource("10_xr31j")
-moveCompontent = NodePath("../../MoveComponent")
 
-[node name="Jump" type="Node" parent="StateMachine" node_paths=PackedStringArray("moveCompontent")]
+[node name="Jump" type="Node" parent="StateMachine"]
 script = ExtResource("11_1vnvd")
 jumpForce = 350.0
 chargeMultiplier = 200.0
-moveCompontent = NodePath("../../MoveComponent")
 
-[node name="PickUp" type="Node" parent="StateMachine" node_paths=PackedStringArray("moveCompontent")]
+[node name="PickUp" type="Node" parent="StateMachine"]
 script = ExtResource("13_7ixrb")
-moveCompontent = NodePath("../../MoveComponent")
 
-[node name="GetHit" type="Node" parent="StateMachine" node_paths=PackedStringArray("moveCompontent")]
+[node name="GetHit" type="Node" parent="StateMachine"]
 script = ExtResource("14_vvvbr")
-moveCompontent = NodePath("../../MoveComponent")
 
-[node name="HitFall" type="Node" parent="StateMachine" node_paths=PackedStringArray("moveCompontent")]
+[node name="HitFall" type="Node" parent="StateMachine"]
 script = ExtResource("15_1nct0")
-moveCompontent = NodePath("../../MoveComponent")
 
-[node name="Shoot" type="Node" parent="StateMachine" node_paths=PackedStringArray("moveCompontent")]
+[node name="Shoot" type="Node" parent="StateMachine"]
 script = ExtResource("16_8r1tp")
-moveCompontent = NodePath("../../MoveComponent")
 
-[node name="MoveComponent" type="Node" parent="." node_paths=PackedStringArray("inventoryComponent")]
+[node name="InputComponent" type="Node" parent="." node_paths=PackedStringArray("inventoryComponent")]
 script = ExtResource("6_h1uvt")
 inventoryComponent = NodePath("../InventoryComponent")
 

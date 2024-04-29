@@ -52,20 +52,20 @@ public partial class PunchState : AttackState
 
     public void ProcessInput(double delta){
         //jak prawa reka i trzyma LPM
-        if(moveCompontent.GetOneAction() == Actions.ATTACK_PRESSED && !isCharging && !isAttacking ){
+        if(parent.GetAction() == Actions.ATTACK_PRESSED && !isCharging && !isAttacking ){
             isCharging = true;
         }
-        else if(moveCompontent.GetOneAction() == (Actions.ATTACK) && isRight && isCharging){
+        else if(parent.GetAction() == (Actions.ATTACK) && isRight && isCharging){
             attackLenght = 0.5;
             //animation = "punchCharge";
             UpdateAnimation("punchCharge");//animationPlayer.Play(animation+side);
         }
-        else if(moveCompontent.GetOneAction() != (Actions.ATTACK) && isRight && chargeTime>0.1 && !isAttacking ){
+        else if(parent.GetAction() != (Actions.ATTACK) && isRight && chargeTime>0.1 && !isAttacking ){
             isCharging=false;
             chargeTime=0;
             Attack();
         }
-        else if(moveCompontent.GetOneAction() == (Actions.ATTACK_PRESSED) && !isRight && attackLenght<0.3){
+        else if(parent.GetAction() == (Actions.ATTACK_PRESSED) && !isRight && attackLenght<0.3){
             Attack();
         }
     }
@@ -96,17 +96,17 @@ public partial class PunchState : AttackState
             rightArm.Rotate(3.14f);
             leftArm.Rotate(3.14f);
 
-            moveCompontent.direction=Vector2.Left;
+            parent.SetFacingDirection(Vector2.Left);
             
         }else if(Pos.X>parent.Position.X){
-            moveCompontent.direction=Vector2.Right;
+            parent.SetFacingDirection(Vector2.Right);
             
         }
         UpdateAnimation(animation);
     }
 
     void OnPunchHitBodyEnter(Node2D body){
-        Vector2 isFront = moveCompontent.direction;
+        Vector2 isFront = parent.GetFacingDirection();
         if(body.HasMethod("TakeDamage")){
             combo += 1;
             if(combo>=3){

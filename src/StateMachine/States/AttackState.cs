@@ -7,6 +7,8 @@ public partial class AttackState : State
     public double attackLenght=0.4;
     public bool isAttacking;
 
+    //Atak state z dostępem do inventarza w przypadku gracza i tam sie rozpierdoli na puncze i szoty
+
     public override void Enter(){
         attackLenght = parent.attackLenght;
         base.Enter();

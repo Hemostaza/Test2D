@@ -8,7 +8,7 @@ public partial class pc : Entity
     [Export]
     public InventoryComponent inventoryComponent;
     [Export]
-    PlayerMoveComponent moveComponent;
+    InputComponent inputComponent;
 
     public List<Item> focusedItem = new List<Item>();
 
@@ -20,7 +20,7 @@ public partial class pc : Entity
     public override void _PhysicsProcess(double delta)
     {
         base._PhysicsProcess(delta);
-        moveComponent.GetInput();
+        //inputComponent.GetInput();
         Falling();
         //inventoryComponent.GetKeySlot();
 
@@ -52,5 +52,27 @@ public partial class pc : Entity
     public override ItemData GetActiveItem()
     {
         return inventoryComponent.GetActiveItem();
+    }
+
+//Jak by zrobić że obraca sie zawsze w strone kursora to SetFacingDirection - mousePos;
+    public override Vector2 GetFacingDirection()
+    {
+        return inputComponent.direction;
+    }
+
+    public override void SetFacingDirection(Vector2 direction)
+    {
+        inputComponent.direction = direction;
+    }
+
+    public override void SetAction(Actions action){
+        this.action = action;
+    }
+    public override Actions GetAction(){
+        return inputComponent.GetInput();
+    }
+
+    public override float WantMove(){
+        return inputComponent.WantMove();
     }
 }

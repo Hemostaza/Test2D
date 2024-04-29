@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://cwcc0geuie4n5" path="res://Scenes/pc.tscn" id="1_mxk4o"]
 [ext_resource type="PackedScene" uid="uid://d2vya0gb12u5q" path="res://Scenes/inventory.tscn" id="1_yccbv"]
 [ext_resource type="Texture2D" uid="uid://cafg3ge32mk66" path="res://Assets/Test/groundTiles.png" id="2_1ysxb"]
-[ext_resource type="PackedScene" uid="uid://1eokv4j58342" path="res://Scenes/testEnemy.tscn" id="2_23upm"]
+[ext_resource type="PackedScene" uid="uid://1eokv4j58342" path="res://Scenes/testEnemy.tscn" id="4_dwl2y"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2j880"]
 texture = ExtResource("2_1ysxb")
@@ -175,7 +175,6 @@ position = Vector2(60, 95)
 [node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
 position = Vector2(2, 19)
 
-[node name="Enemy" parent="." node_paths=PackedStringArray("target") instance=ExtResource("2_23upm")]
-position = Vector2(260, 164)
+[node name="Enemy" parent="." node_paths=PackedStringArray("target") instance=ExtResource("4_dwl2y")]
+position = Vector2(213, 224)
 target = NodePath("../CharacterBody2D")
-safeTimeInAir = 1.0

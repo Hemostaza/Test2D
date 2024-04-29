@@ -12,6 +12,9 @@ public partial class FallState : State
     double lyingTime = 0.2;
     public override void Enter(){
         animation = "fall";
+        if(parent.Velocity.Y<0){
+            animation = "jump";
+        }
         xSpeed = parent.Velocity.X*2;
         isContinue = false;
         fallingTime = 0;
@@ -25,13 +28,17 @@ public partial class FallState : State
     public override void PhysicsUpdate(double delta){
         fallingTime+=delta;
         if(fallingTime>0){
+            if(parent.Velocity.Y>0 && !isContinue){
+                animation = "fall";
+            }
             if(!isContinue && fallingTime>parent.safeTimeInAir){
                 UpdateAnimation("fall2Continue");
                 AnimationQueue("fallContinue");
                 lyingTime=0.5;
                 isContinue = true;
             }
-            float moveSpeed = moveCompontent.WantMove() * 25;
+            float moveSpeed = parent.WantMove() * 25;
+            //Brak obrotu animacji jak sie zmienia na spadanie kontynuacyjne
             if(fallingTime<1 || fallingTime>1.5){
                 UpdateAnimation(animation);
             }
@@ -43,6 +50,7 @@ public partial class FallState : State
         if(parent.IsOnFloor()){
             Land(delta);
         }
+        //Co tu odjebalem przecie to sie nie spelnia nigdy bo fallingtime nigdy nie jest na minusie 
         if(fallingTime<0 && !parent.IsOnFloor()){
             Enter();
         }

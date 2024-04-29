@@ -11,7 +11,6 @@ public abstract partial class MoveComponent : Node
     public Actions oneAction;
 
     public Actions GetOneAction(){
-        GD.Print(oneAction);
         return oneAction;
     }
 

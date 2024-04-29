@@ -23,8 +23,8 @@ public partial class PlayerIdleState : State
         if(parent.Velocity!=Vector2.Zero){
             parent.Velocity = parent.Velocity.Lerp(Vector2.Zero,(float)delta*5);
         }
-        if(moveCompontent.WantMove()!=0){
-            float moveVelocity = moveCompontent.WantMove() * 100;
+        if(parent.WantMove()!=0){
+            float moveVelocity = parent.WantMove() * 100;
             animation = "walk";
             parent.Velocity = new Vector2(moveVelocity,0);
         }

@@ -3,21 +3,30 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public partial class PlayerMoveComponent : MoveComponent
+public partial class InputComponent : Node
 {   
+    Actions oneAction;
+    public Vector2 direction = Vector2.Right;
+
     [Export]
     InventoryComponent inventoryComponent;
-    public override float WantMove(){
+    public float WantMove(){
         float movement = Input.GetActionStrength("right") - Input.GetActionStrength("left");
-        if(movement>0){
-            direction = Vector2.Right;
-        }else if(movement<0){
-            direction = Vector2.Left;
+        // if(movement>0){
+        //     direction = Vector2.Right;
+        // }else if(movement<0){
+        //     direction = Vector2.Left;
+        // }
+        if (movement!=0) { 
+            direction = new Vector2(movement,0);
         }
         return movement;
     }
-    internal void GetInput()
+
+    public Actions GetInput()
     {
+        
+        if(WantMove()!=0)  oneAction = (Actions.WALK);
         ItemData activeItem = inventoryComponent.GetActiveItem();
         if(activeItem!=null && activeItem.GetItemFlags().HasFlag(ItemFlag.weapon)){
            if(Input.IsActionJustReleased("fire"))  oneAction = (Actions.SHOOT);
@@ -28,13 +37,12 @@ public partial class PlayerMoveComponent : MoveComponent
         }
         //GD.Print(player.inventoryComponent.GetActiveItem());
 
-        if(WantMove()!=0)  oneAction = (Actions.WALK);
         if(Input.IsActionPressed("jump"))  oneAction = (Actions.JUMP);
         if(Input.IsActionJustReleased("jump"))  oneAction = (Actions.JUMP_RELEASE);
         
-        if(!actions.Any()){
-            oneAction = Actions.IDLE;
-        }
+        //musi zwraacac idle bez inputa
+
+        return oneAction;
     }
 
 }

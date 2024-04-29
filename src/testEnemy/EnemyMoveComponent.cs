@@ -2,7 +2,7 @@ using Godot;
 using System.Collections.Generic;
 using System.Linq;
 
-public partial class EnemyAI : MoveComponent
+public partial class EnemyMoveComponent : MoveComponent
 {
     Vector2 targetPosition;
     Entity target;

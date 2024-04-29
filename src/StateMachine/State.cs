@@ -14,8 +14,8 @@ public partial class State : Node
     public AnimationPlayer animationPlayer;
     public String animationGroup;
     String fullAnimationName;
-    [Export]
-    public MoveComponent moveCompontent;
+    //[Export]
+    //public MoveComponent moveCompontent;
     //public InventoryComponent inventoryComponent;
     public Actions action;
 
@@ -24,7 +24,7 @@ public partial class State : Node
                 this.parent = parent;
                 this.animationPlayer = animationPlayer;
                 this.animationGroup = animationGroup;
-                //moveCompontent = parent.move();
+                //moveCompontent = parent.GetMoveComponent();
                 InitState();
     }
     virtual public void InitState(){
@@ -33,7 +33,7 @@ public partial class State : Node
 
     virtual public void Enter(){
         UpdateAnimation(animation);
-        //GD.Print(parent.Name+": enter: "+this.Name);
+       // GD.Print(parent.Name+": enter: "+this.Name);
     }
 
     virtual public void Exit(){
@@ -44,15 +44,15 @@ public partial class State : Node
     }
 
     virtual public void PhysicsUpdate(double delta){
-        action = moveCompontent.GetOneAction();
+        action = parent.GetAction();
         //action = moveCompontent.GetActions()[0];
     }
 
     public void UpdateSide(){
-        if(moveCompontent.direction==Vector2.Right){
+        if(parent.GetFacingDirection()==Vector2.Right){
             side = "Right";
         }
-        else if(moveCompontent.direction==Vector2.Left){
+        else if(parent.GetFacingDirection()==Vector2.Left){
             side = "Left";
         }
     }

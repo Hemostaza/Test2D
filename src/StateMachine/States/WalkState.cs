@@ -11,14 +11,14 @@ public partial class WalkState : State
 
     public override void Update(double delta){
         base.Update(delta);
-        if(moveCompontent.direction.X != moveVelocity){
+        if(parent.GetFacingDirection().X != moveVelocity){
             UpdateAnimation(animation);
         }
     }
 
     public override void PhysicsUpdate(double delta){
         base.PhysicsUpdate(delta);
-        moveVelocity = moveCompontent.WantMove() * 100;
+        moveVelocity = parent.WantMove() * 100;
 
         parent.Velocity = new Vector2(moveVelocity,0);
         
@@ -38,6 +38,6 @@ public partial class WalkState : State
     }
     public override void Exit(){
         base.Exit();
-        parent.Velocity = moveCompontent.direction*50;
+        parent.Velocity = parent.GetFacingDirection()*50;
     }
 }

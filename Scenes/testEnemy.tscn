@@ -1,20 +1,20 @@
 [gd_scene load_steps=18 format=3 uid="uid://1eokv4j58342"]
 
 [ext_resource type="AnimationLibrary" uid="uid://cjcftckmbps0j" path="res://Animations/pc/PC.res" id="1_6hm7n"]
-[ext_resource type="Script" path="res://src/testEnemy/testEnemy.cs" id="1_13uk7"]
+[ext_resource type="Script" path="res://src/testEnemy/testEnemy.cs" id="1_86u0d"]
 [ext_resource type="Texture2D" uid="uid://ct2vyr2yv8jkb" path="res://Assets/Sheets/Szpak/body.png" id="2_4pp64"]
 [ext_resource type="Texture2D" uid="uid://bv50oiih8c20u" path="res://Assets/Sheets/Szpak/leftArm.png" id="3_0x1ic"]
 [ext_resource type="Texture2D" uid="uid://ghektscgmx13" path="res://Assets/Sheets/Szpak/leftLeg.png" id="4_47djv"]
 [ext_resource type="Texture2D" uid="uid://dcl13sv2i43ul" path="res://Assets/Sheets/Szpak/rightArm.png" id="5_qhm7k"]
-[ext_resource type="Script" path="res://src/StateMachine/StateMachine.cs" id="6_7qe0l"]
-[ext_resource type="Script" path="res://src/StateMachine/States/IdleState.cs" id="7_85qrr"]
-[ext_resource type="Script" path="res://src/StateMachine/States/WalkState.cs" id="8_v6il6"]
-[ext_resource type="Script" path="res://src/StateMachine/States/Player/PunchState.cs" id="10_4nvah"]
-[ext_resource type="Script" path="res://src/StateMachine/States/FallState.cs" id="10_khn44"]
-[ext_resource type="Script" path="res://src/StateMachine/States/JumpState.cs" id="11_8f6oq"]
-[ext_resource type="Script" path="res://src/StateMachine/States/GetHitState.cs" id="13_5g27f"]
-[ext_resource type="Script" path="res://src/testEnemy/EnemyAI.cs" id="13_cmjj5"]
-[ext_resource type="Script" path="res://src/StateMachine/States/HitFallState.cs" id="14_yab6a"]
+[ext_resource type="Script" path="res://src/testEnemy/AIComponent.cs" id="7_6ybew"]
+[ext_resource type="Script" path="res://src/StateMachine/StateMachine.cs" id="8_egewc"]
+[ext_resource type="Script" path="res://src/StateMachine/States/IdleState.cs" id="9_fdrdk"]
+[ext_resource type="Script" path="res://src/StateMachine/States/WalkState.cs" id="10_4rqvg"]
+[ext_resource type="Script" path="res://src/StateMachine/States/AttackState.cs" id="11_es56g"]
+[ext_resource type="Script" path="res://src/StateMachine/States/FallState.cs" id="12_guxo0"]
+[ext_resource type="Script" path="res://src/StateMachine/States/JumpState.cs" id="13_somun"]
+[ext_resource type="Script" path="res://src/StateMachine/States/GetHitState.cs" id="14_3nu5p"]
+[ext_resource type="Script" path="res://src/StateMachine/States/HitFallState.cs" id="15_lidcq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s14by"]
 size = Vector2(12, 32)
@@ -26,8 +26,9 @@ radius = 5.0
 position = Vector2(60, 95)
 collision_layer = 4
 collision_mask = 3
-script = ExtResource("1_13uk7")
-enemyAI = NodePath("MoveComponent")
+script = ExtResource("1_86u0d")
+enemyAI = NodePath("AIComponent")
+safeTimeInAir = 1.0
 stateMachine = NodePath("StateMachine")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -83,47 +84,36 @@ collision_mask = 2
 position = Vector2(15, 1)
 shape = SubResource("CircleShape2D_0v1k4")
 
+[node name="AIComponent" type="Node" parent="."]
+script = ExtResource("7_6ybew")
+
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initialState", "animationPlayer", "parent")]
-script = ExtResource("6_7qe0l")
-initialState = NodePath("Idle")
+script = ExtResource("8_egewc")
+initialState = NodePath("Fall")
 animationPlayer = NodePath("../AnimationPlayer")
 animationGroup = "PC"
 parent = NodePath("..")
 
-[node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("moveCompontent")]
-script = ExtResource("7_85qrr")
-moveCompontent = NodePath("../../MoveComponent")
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("9_fdrdk")
 
-[node name="Walk" type="Node" parent="StateMachine" node_paths=PackedStringArray("moveCompontent")]
-script = ExtResource("8_v6il6")
-moveCompontent = NodePath("../../MoveComponent")
+[node name="Walk" type="Node" parent="StateMachine"]
+script = ExtResource("10_4rqvg")
 
-[node name="Attack" type="Node" parent="StateMachine" node_paths=PackedStringArray("rightArm", "leftArm", "area2D", "moveCompontent")]
-script = ExtResource("10_4nvah")
-rightArm = NodePath("../../Sprite/armR")
-leftArm = NodePath("../../Sprite/Main/LeftSide/armL")
-area2D = NodePath("../../Sprite/armR/PunchHitBox")
-moveCompontent = NodePath("../../MoveComponent")
+[node name="Attack" type="Node" parent="StateMachine"]
+script = ExtResource("11_es56g")
 
-[node name="Fall" type="Node" parent="StateMachine" node_paths=PackedStringArray("moveCompontent")]
-script = ExtResource("10_khn44")
-moveCompontent = NodePath("../../MoveComponent")
+[node name="Fall" type="Node" parent="StateMachine"]
+script = ExtResource("12_guxo0")
 
-[node name="Jump" type="Node" parent="StateMachine" node_paths=PackedStringArray("moveCompontent")]
-script = ExtResource("11_8f6oq")
+[node name="Jump" type="Node" parent="StateMachine"]
+script = ExtResource("13_somun")
 jumpForce = 350.0
 chargeMultiplier = 200.0
-moveCompontent = NodePath("../../MoveComponent")
+instant = true
 
-[node name="GetHit" type="Node" parent="StateMachine" node_paths=PackedStringArray("moveCompontent")]
-script = ExtResource("13_5g27f")
-moveCompontent = NodePath("../../MoveComponent")
+[node name="GetHit" type="Node" parent="StateMachine"]
+script = ExtResource("14_3nu5p")
 
-[node name="HitFall" type="Node" parent="StateMachine" node_paths=PackedStringArray("moveCompontent")]
-script = ExtResource("14_yab6a")
-moveCompontent = NodePath("../../MoveComponent")
-
-[node name="MoveComponent" type="Node" parent="."]
-script = ExtResource("13_cmjj5")
-
-[connection signal="body_entered" from="Sprite/armR/PunchHitBox" to="StateMachine/Attack" method="OnPunchHitBodyEnter"]
+[node name="HitFall" type="Node" parent="StateMachine"]
+script = ExtResource("15_lidcq")

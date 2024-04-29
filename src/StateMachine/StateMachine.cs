@@ -27,7 +27,6 @@ public partial class StateMachine : Node
         if(initialState!=null){
             initialState.Enter();
             currentState = initialState;
-            parent.SetCurrentState(currentState);
         }
     }
 
@@ -65,11 +64,13 @@ public partial class StateMachine : Node
         
         newState.Enter();
         currentState = newState;
-
-        parent.SetCurrentState(currentState);
     }
 
     public Dictionary<String, State> GetStates(){
         return states;
+    }
+
+    public State GetCurrentState(){
+        return currentState;
     }
 }

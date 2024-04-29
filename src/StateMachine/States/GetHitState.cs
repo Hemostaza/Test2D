@@ -16,7 +16,7 @@ public partial class GetHitState : State
         // if(parent.hitDirection==Vector2.Right || parent.hitDirection==Vector2.Zero){
         //     animation = "hitFront";
         // }else animation = "hitBack";
-        base.Enter();
+        //base.Enter();
     }
 
     public override void Update(double delta)
@@ -39,7 +39,7 @@ public partial class GetHitState : State
 
     public void GetHit(double power, Vector2 hitSide){
 
-        Vector2 parentDir = parent.GetMoveComponent().direction;
+        Vector2 parentDir = parent.GetFacingDirection();
 
         if(hitSide+parentDir!=Vector2.Zero){
             animation = "hitBack";

@@ -9,15 +9,10 @@ public partial class Entity : CharacterBody2D
     public double attackLenght = 0.4;
     [Export]
     public StateMachine stateMachine;
-    public State currentState;
-
-    public Vector2 facingDir = Vector2.Zero;
-
-    [Export]
-    MoveComponent moveComponent;
+    
     ItemData activeItem;
-  //  [Export]
-   // InventoryComponent inventoryComponent;
+    
+    public Actions action;
 
     public override void _Ready()
     {
@@ -30,15 +25,14 @@ public partial class Entity : CharacterBody2D
     }
 
     public void Falling(){
-        if(!IsOnFloor() && currentState.Name!="Jump" && currentState.Name!="Fall"
-            && currentState.Name!="HitFall"){
-            stateMachine.OnChildTransition(currentState,"Fall");
+        if(!IsOnFloor() && stateMachine.GetCurrentState().Name!="Jump" && stateMachine.GetCurrentState().Name!="Fall"
+            && stateMachine.GetCurrentState().Name!="HitFall"){
+            stateMachine.OnChildTransition(stateMachine.GetCurrentState(),"Fall");
         }
     }
 
-    public Vector2 hitDirection = Vector2.Zero;
     public virtual void TakeDamage(Vector2 hitDirection, double power){
-        this.hitDirection = hitDirection;
+        //this.hitDirection = hitDirection;
     }
     //Ustawienie aktywnego itemu
     public virtual void SetActiveItem(ItemData itemData){
@@ -48,24 +42,22 @@ public partial class Entity : CharacterBody2D
         return null;
     }
 
-    public void SetCurrentState(State state){
-        currentState = state;
+    public virtual Vector2 GetFacingDirection(){
+        return Vector2.Zero;
     }
 
-    public Vector2 GetFacingDirection(){
-        return facingDir;
+    public virtual void SetFacingDirection(Vector2 direction){
+        
     }
 
-    public void SetFacingDirection(Vector2 dir){
-        facingDir = dir;
+    public virtual void SetAction(Actions action){
+        this.action = action;
     }
-    
-
-    public MoveComponent GetMoveComponent(){
-        return moveComponent;
+    public virtual Actions GetAction(){
+        return action;
     }
 
-    // public InventoryComponent GetInventoryComponent(){
-    //     return inventoryComponent;
-    // }
+    public virtual float WantMove(){
+        return 0;
+    }
 }

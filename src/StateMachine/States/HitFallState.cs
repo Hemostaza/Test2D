@@ -10,9 +10,15 @@ public partial class HitFallState : State
     public override void Enter()
     {   
         onFloor = hitFallTimer;
-        if(parent.hitDirection==Vector2.Right){
+        
+        bool isFront = animationPlayer.CurrentAnimation.Contains("hitFront");
+
+        if(!isFront){
+            animation = "fall2Continue";
+        }else{
             animation = "hitFrontContinue";
-        }else animation = "fall2Continue";
+        }
+        UpdateAnimation(animation);
         base.Enter();
     }
     public override void PhysicsUpdate(double delta){
@@ -22,9 +28,9 @@ public partial class HitFallState : State
             parent.Velocity += new Vector2(0,(float)gravity);
         }
         if(parent.IsOnFloor()){
-            if(parent.hitDirection==Vector2.Right){
+            if(animation.Equals("hitFrontContinue")){
                 animation = "hitFrontFloor";
-            }else animation = "hitFloor";
+            }else if(animation.Equals("fall2Continue")) animation = "hitFloor";
 
             if(parent.Velocity!=Vector2.Zero){
                 parent.Velocity = parent.Velocity.Lerp(Vector2.Zero,(float)delta*5);
